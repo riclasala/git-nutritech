@@ -1,0 +1,22 @@
+body { padding-top: 90px; }
+
+.portfolio-item {
+	margin-bottom: 30px;
+}
+
+.pagination {
+	margin-bottom: 30px;
+}
+
+.back-to-top {
+	cursor: pointer;
+	position: fixed;
+	bottom: 20px;
+	left: 82%;
+	width: 50px;
+	display:none;
+}
+
+.no-dots {
+	list-style-type: none; 
+}
