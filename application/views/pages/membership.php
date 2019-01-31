@@ -7,14 +7,26 @@
 			<div class="panel-body">
 				<div id="the-message"></div>
 
-				<?php echo form_open("pages/save", array("id" => "form-user", "class" => "form-horizontal")) ?>
-					<div class="form-group">
+				<?php echo form_open("pages/save", array("id" => "form-user", "class" => "form-row")) ?>
+					<div class = "col-xs-12 col-sm-12 col-md-4 col-lg-4">
+						<label for = "last_name">Last Name *</label>
+						<input type = "text" class = "form-control" placeholder = "Last Name" id = "last_name" name = "last_name" />
+					</div>
+					<div class = "col-xs-12 col-sm-12 col-md-4 col-lg-4">
+						<label for = "first_name">First Name *</label>
+						<input type = "text" class = "form-control" placeholder = "First Name" id = "first_name" name = "first_name" />
+					</div>
+					<div class = "col-xs-12 col-sm-12 col-md-4 col-lg-4">
+						<label for = "mid_name">Middle Name </label>
+						<input type = "text" class = "form-control" placeholder = "Middle Name" id = "mid_name" name = "middle_name" />
+					</div>
+					<div class="form-group col-md-6">
 						<label for="username" class="col-md-3 col-sm-4 control-label">Username</label>
 						<div class="col-md-9 col-sm-8">
 							<input type="text" name="username" id="username" class="form-control">
 						</div>
 					</div>
-					<div class="form-group">
+					<div class="form-group col-md-6">
 						<label for="email" class="col-md-3 col-sm-4 control-label">Email</label>
 						<div class="col-md-9 col-sm-8">
 							<input type="text" name="email" id="email" class="form-control">							

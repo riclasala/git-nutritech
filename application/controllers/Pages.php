@@ -1,5 +1,6 @@
 <?php
 class Pages extends CI_Controller{
+
 	public function view($page = 'home'){
 		if(!file_exists(APPPATH. 'views/pages/'. $page . '.php')){
 			show_404();
@@ -12,11 +13,13 @@ class Pages extends CI_Controller{
 		$this->load->view('layouts/footer');
 	}
 
-	public function save($page)
+	public function save()
 	{
 		$data = array('success' => false, 'messages' => array());
 
 		$this->load->library('form_validation');
+		$this->form_validation->set_rules("last_name", "Last Name", "trim|required");
+		$this->form_validation->set_rules("first_name", "First Name", "trim|required");
 		$this->form_validation->set_rules("username", "Username", "trim|required");
 		$this->form_validation->set_rules("email", "Email", "trim|required|valid_email");
 		$this->form_validation->set_rules("password", "Password", "trim|required");
@@ -32,6 +35,5 @@ class Pages extends CI_Controller{
 		}
 
 		echo json_encode($data);
-		view($page);
 	}
 }

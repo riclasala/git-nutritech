@@ -12,6 +12,5 @@ $route['load_items'] = 'items/load_items';
 $route['items/(:any)'] = 'items/item_list/$1'; 
 $route['default_controller'] = 'pages/view';
 $route['(:any)'] = 'pages/view/$1';
-//$route['(:any)'] = 'pages/save/$1';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

@@ -15,6 +15,10 @@
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/fontawesome/css/all.min.css" />
 		<!-- Custom styles for this template -->
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/custom.css" />
+		
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    	<script>window.jQuery || document.write('<script src="<?php echo base_url(); ?>assets/js/jquery-3.3.1.min.js"><\/script>')</script>
 	</head>
 	<body>
 		<!-- Navigation -->
