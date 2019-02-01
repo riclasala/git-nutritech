@@ -15,6 +15,9 @@
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/fontawesome/css/all.min.css" />
 		<!-- Custom styles for this template -->
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/custom.css" />
+
+		<!-- Load first jquery to do custom js-->
+		<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery-3.3.1.min.js"></script>
 	</head>
 	<body>
 		<!-- Navigation -->
