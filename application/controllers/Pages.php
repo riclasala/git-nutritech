@@ -32,7 +32,9 @@ class Pages extends CI_Controller{
 				$data['messages'][$key] = form_error($key);
 			}
 		}
-
 		echo json_encode($data);
+
 	}
+
+	
 }
