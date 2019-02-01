@@ -24,6 +24,7 @@ class Item_model extends CI_Model
 			'item_description' =>  $details['item_description'],
 			'unit_price' =>  $details['unit_price'],
 			'nsp' =>  $details['nsp'],
+			'pse' =>  $details['pse'],
 			'item_photo' =>  $details['item_photo'],
 			'sequence' =>  $details['sequence']
 		);

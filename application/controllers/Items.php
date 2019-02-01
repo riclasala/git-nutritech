@@ -21,13 +21,12 @@ class Items extends CI_Controller{
 		$this->load->view('layouts/footer');
 	}
 
+	
 	public function load_items()
 	{
 		$server_ip = _ip_url();
-		$url = 'http://'.$server_ip.'/nutritech_api/product/reload_items';
-		
-		//------------------------------------------------
 		//load item subclass
+		$url = 'http://'.$server_ip.'/nutritech_api/product/reload_items';
 		$qstring = array('X-API-KEY' => '12345');
 		$query = http_build_query($qstring);
 		$ch    = curl_init();
@@ -49,22 +48,34 @@ class Items extends CI_Controller{
 				'item_description' => $row['item_description'],
 				'unit_price' =>  $row['unit_price'],
 				'nsp' =>  $row['nsp'],
+				'pse' =>  $row['pse'],
 				'item_photo' =>  $row['item_photo'],
 				'sequence' =>  $row['sequence']
 			);
 			$this->item_model->save($item_arr);
 		}	
 
-		//--------------------------------------------------
+		echo 'Item Master List Loaded ...<br />';
+
+		$this->load_usdrate();
+		$this->load_packages($server_ip);
+		$this->load_promo($server_ip);
+
+		echo '<br />DATABASE Successfully Loaded!';
+	}
+
+	public function load_usdrate(){
 		//load usd to php rates
 		$usd_rate = _get_dollar_exrate();
 		$this->load->model('currency_rate_model');
 		$this->currency_rate_model->edit($usd_rate);
 
-		//--------------------------------------------------
+		echo 'USD Exchange Rate Loaded ...<br />';
+	}
+
+	public function load_packages($server_ip){
 		//load latest packages details
 		$url = 'http://'.$server_ip.'/nutritech_api/product/reload_packages';
-		//load item subclass
 		$qstring = array('X-API-KEY' => '12345');
 		$query = http_build_query($qstring);
 		$ch    = curl_init();
@@ -92,6 +103,41 @@ class Items extends CI_Controller{
 			$this->item_package_model->save($pack_arr);
 		}
 
-		echo 'Database Successfully Loaded.';
+		echo 'Item Packages Loaded ...<br />';
+	}
+
+	public function load_promo($server_ip){
+		$url = 'http://'.$server_ip.'/nutritech_api/product/reload_promos';
+		$qstring = array('X-API-KEY' => '12345');
+		$query = http_build_query($qstring);
+		$ch    = curl_init();
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_HEADER, false);
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_POST, true);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $query);
+		$response = curl_exec($ch);
+		curl_close($ch);
+
+		$this->load->model('promo_item_model');
+		$this->promo_item_model->truncate_table();
+
+		$promos = json_decode($response, TRUE);
+		foreach($promos as $row){
+			$promo_arr = array(
+				'promo_id' => $row['promo_id'],
+				'promo_type_id' => $row['promo_type_id'],
+				'promo_code' => $row['promo_code'],
+				'promo_description' => $row['promo_description'],
+				'promo_period_from' => $row['promo_period_from'],
+				'promo_period_to' => $row['promo_period_to'],
+				'pse' =>  $row['pse'],
+				'tsp' =>  $row['tsp'],
+				'nsp' =>  $row['nsp'],
+				'item_package_id' =>  $row['item_package_id']
+			);
+			$this->promo_item_model->save($promo_arr);
+		}
+		echo 'Promo Items Loaded ...<br />';
 	}
 }
