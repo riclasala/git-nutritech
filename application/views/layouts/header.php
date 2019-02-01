@@ -80,7 +80,7 @@
 							</div>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="<?php echo base_url(); ?>firstclass">First Class Collection</a>
+							<a class="nav-link" href="<?php echo base_url(); ?>items/13">First Class Collection</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="<?php echo base_url(); ?>booster">Booster</a>
