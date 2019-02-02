@@ -2,6 +2,24 @@
 
 class Promo_item_model extends CI_Model
 {
+	public function fetch_promos($item_id){
+		$this->db->distinct();
+		$this->db->select('promo_items.*');
+		$this->db->from('promo_items');
+		$this->db->join('promo_item_breakdown', 'promo_item_breakdown.con_id = promo_items.promo_id');
+
+		$array = array('promo_items.item_package_id' => 0,
+			'promo_item_breakdown.distribution_type_id' => 1
+		);
+		$this->db->where($array);
+		$this->db->group_start();
+		$this->db->where('promo_item_breakdown.item_id', $item_id);
+		$this->db->or_where('promo_item_breakdown.item_bundle_id', $item_id);
+		$this->db->group_end();
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
 	public function truncate_table(){
 		$this->db->truncate('promo_items');
 	}

@@ -9,11 +9,28 @@ class Items extends CI_Controller{
 	public function item_list($class_id){
 		$this->load->model('item_class_model');		
 		$this->load->model('currency_rate_model');
+		$this->load->model('promo_item_model');
 
 		$data['title'] = $this->item_class_model->fetch_class($class_id);
-		$data['items'] = $this->item_model->item_per_class($class_id);
-		$usd_rate = $this->currency_rate_model->fetch_usdrate();
 
+		$item_array = array();
+		$items = $this->item_model->item_per_class($class_id);
+
+		foreach ($items as $row) {
+			$item_id = $row['item_id'];
+			$promos = $this->promo_item_model->fetch_promos($item_id);
+
+			$item_array[] = array(
+				'item_id' => $row['item_id'],
+				'item_description' => $row['item_description'],
+				'unit_price' => $row['unit_price'],
+				'item_photo' => $row['item_photo'],
+				'promo_array' => $promos
+			);
+		}
+		$data['items'] = $item_array;
+
+		$usd_rate = $this->currency_rate_model->fetch_usdrate();
 		$data['usd_rate'] = round($usd_rate, 2);
 
 		$this->load->view('layouts/header');
@@ -21,7 +38,6 @@ class Items extends CI_Controller{
 		$this->load->view('layouts/footer');
 	}
 
-	
 	public function load_items()
 	{
 		$server_ip = _ip_url();
@@ -57,9 +73,7 @@ class Items extends CI_Controller{
 
 		echo 'Item Master List Loaded ...<br />';
 
-		$this->load_usdrate();
-		$this->load_packages($server_ip);
-		$this->load_promo($server_ip);
+		$this->load_breakdown($server_ip);
 
 		echo '<br />DATABASE Successfully Loaded!';
 	}
@@ -139,5 +153,39 @@ class Items extends CI_Controller{
 			$this->promo_item_model->save($promo_arr);
 		}
 		echo 'Promo Items Loaded ...<br />';
+	}
+
+	public function load_breakdown($server_ip){
+		$url = 'http://'.$server_ip.'/nutritech_api/product/reload_breakdowns';
+		$qstring = array('X-API-KEY' => '12345');
+		$query = http_build_query($qstring);
+		$ch    = curl_init();
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_HEADER, false);
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_POST, true);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $query);
+		$response = curl_exec($ch);
+		curl_close($ch);
+
+		$this->load->model('promo_item_breakdown_model');
+		$this->promo_item_breakdown_model->truncate_table();
+
+		$promos = json_decode($response, TRUE);
+		foreach($promos as $row){
+			$promo_arr = array(
+				'con_id' => $row['con_id'],
+				'item_id' => $row['item_id'],
+				'distribution_type_id' => $row['distribution_type_id'],
+				'transaction_qty' => $row['transaction_qty'],
+				'unit_price' => $row['unit_price'],
+				'nsp' => $row['nsp'],
+				'recipient' =>  $row['recipient'],
+				'item_bundle_id' =>  $row['item_bundle_id'],
+				'is_price_per_unit' =>  'N'
+			);
+			$this->promo_item_breakdown_model->save($promo_arr);
+		}
+		echo 'Promo Item Breakdowns Loaded ...<br />';
 	}
 }
