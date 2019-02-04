@@ -2,6 +2,38 @@
 
 class Promo_item_breakdown_model extends CI_Model
 {
+	public function load_breakdown($server_ip){
+		$url = 'http://'.$server_ip.'/nutritech_api/product/reload_breakdowns';
+		$qstring = array('X-API-KEY' => '12345');
+		$query = http_build_query($qstring);
+		$ch    = curl_init();
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_HEADER, false);
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_POST, true);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $query);
+		$response = curl_exec($ch);
+		curl_close($ch);
+
+		$this->truncate_table();
+
+		$promos = json_decode($response, TRUE);
+		foreach($promos as $row){
+			$promo_arr = array(
+				'con_id' => $row['con_id'],
+				'item_id' => $row['item_id'],
+				'distribution_type_id' => $row['distribution_type_id'],
+				'transaction_qty' => $row['transaction_qty'],
+				'unit_price' => $row['unit_price'],
+				'nsp' => $row['nsp'],
+				'recipient' =>  $row['recipient'],
+				'item_bundle_id' =>  $row['item_bundle_id'],
+				'is_price_per_unit' =>  'N'
+			);
+			$this->save($promo_arr);
+		}
+	}
+
 	public function truncate_table(){
 		$this->db->truncate('promo_item_breakdown');
 	}
