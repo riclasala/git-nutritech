@@ -2,6 +2,7 @@
 		<div class="col-lg-3">
 			<h1 class="my-4">Shop Online</h1>
 			<div class="list-group">
+				<a href="<?php echo base_url(); ?>booster" class="list-group-item">Booster Promo</a>
 				<a href="<?php echo base_url(); ?>specials" class="list-group-item">Specials Promo</a>
 				<a href="<?php echo base_url(); ?>presidents" class="list-group-item">Presidents Promo</a>
 				<a href="<?php echo base_url(); ?>others" class="list-group-item">Other Promo</a>

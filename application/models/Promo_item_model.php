@@ -39,12 +39,16 @@ class Promo_item_model extends CI_Model
 		$this->db->distinct();
 		$this->db->select('promo_items.*');
 		$this->db->from('promo_items');
-		$this->db->join('promo_item_breakdown', 'promo_item_breakdown.con_id = promo_items.promo_id');
+		$this->db->join('promo_item_breakdown', 'promo_item_breakdown.con_id = promo_items.promo_id', 'INNER');
 
 		$array = array('promo_items.item_package_id' => 0,
 			'promo_item_breakdown.distribution_type_id' => 1
 		);
 		$this->db->where($array);
+
+		$this->db->where('promo_items.promo_period_from <= now()');
+		$this->db->where('promo_items.promo_period_to <= now()');
+
 		$this->db->group_start();
 		$this->db->where('promo_item_breakdown.item_id', $item_id);
 		$this->db->or_where('promo_item_breakdown.item_bundle_id', $item_id);

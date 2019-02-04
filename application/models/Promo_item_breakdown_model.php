@@ -2,6 +2,21 @@
 
 class Promo_item_breakdown_model extends CI_Model
 {
+	public function fetch_bonus($promo_id, $recipient){
+		$this->db->select('items.item_description, promo_item_breakdown.transaction_qty');
+		$this->db->from('promo_item_breakdown');
+		$this->db->join('items', 'items.item_id = promo_item_breakdown.item_id', 'INNER');
+
+		$array = array(
+			'promo_item_breakdown.con_id' => $promo_id,
+			'promo_item_breakdown.distribution_type_id' => 2,
+			'promo_item_breakdown.recipient' => $recipient
+		);
+		$this->db->where($array);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
 	public function load_breakdown($server_ip){
 		$url = 'http://'.$server_ip.'/nutritech_api/product/reload_breakdowns';
 		$qstring = array('X-API-KEY' => '12345');

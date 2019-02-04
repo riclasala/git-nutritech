@@ -10,6 +10,7 @@ class Items extends CI_Controller{
 		$this->load->model('item_class_model');		
 		$this->load->model('currency_rate_model');
 		$this->load->model('promo_item_model');
+		$this->load->model('promo_item_breakdown_model');
 
 		$data['title'] = $this->item_class_model->fetch_class($class_id);
 
@@ -19,12 +20,25 @@ class Items extends CI_Controller{
 			$item_id = $row['item_id'];
 			$promos = $this->promo_item_model->fetch_promos($item_id);
 
+			$promo_array = array();
+			foreach ($promos as $key){
+				$promo_id = $key['promo_id'];
+				$breakdowns = $this->promo_item_breakdown_model->fetch_bonus($promo_id, 'CU');
+
+				$promo_array[] = array(
+					'promo_id' => $key['promo_id'],
+					'promo_description' => $key['promo_description'],
+					'tsp' => $key['tsp'],
+					'breakdown_array' => $breakdowns
+				);
+			}
+
 			$item_array[] = array(
 				'item_id' => $row['item_id'],
 				'item_description' => $row['item_description'],
 				'unit_price' => $row['unit_price'],
 				'item_photo' => $row['item_photo'],
-				'promo_array' => $promos
+				'promo_array' => $promo_array
 			);
 		}
 		$data['items'] = $item_array;
