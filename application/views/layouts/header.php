@@ -24,7 +24,7 @@
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
 			<div class="container">
 				<small>
-					<a href="#" class="text-white" style="text-decoration: none;"><i class="fas fa-shopping-cart"></i> My Cart </a> &nbsp;&nbsp;
+					<a href="<?php echo base_url(); ?>cart" class="text-white" style="text-decoration: none;"><i class="fas fa-shopping-cart"></i> My Cart </a> &nbsp;&nbsp;
 					<a href="#" class="text-white" style="text-decoration: none;"><i class="fas fa-check"></i> Check Out </a>
 				</small>
 				<small class="pull-right">

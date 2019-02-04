@@ -9,6 +9,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['login'] = 'login/index';
 $route['members/login'] = 'members/index';
 
+$route['carts'] = 'carts/index';
+
 /* LOAD DATABASE */
 $route['load_items'] = 'items/load_items';
 $route['load_usdrate'] = 'items/load_usdrate';

@@ -2,6 +2,10 @@
 
 class Promo_item_model extends CI_Model
 {
+	public function getamount($promo_id, $retained){
+		return 1.00;
+	}
+
 	public function load_promo($server_ip){
 		$url = 'http://'.$server_ip.'/nutritech_api/product/reload_promos';
 		$qstring = array('X-API-KEY' => '12345');

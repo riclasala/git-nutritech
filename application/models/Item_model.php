@@ -2,6 +2,10 @@
 
 class Item_model extends CI_Model
 {
+	public function getamount($promo_id, $retained){
+		return 2.00;
+	}
+
 	public function load_items($server_ip)
 	{
 		$url = 'http://'.$server_ip.'/nutritech_api/product/reload_items';
