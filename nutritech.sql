@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 04, 2019 at 09:58 AM
+-- Generation Time: Feb 04, 2019 at 01:59 PM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -1049,6 +1049,32 @@ INSERT INTO `promo_type` (`id`, `promo_type`) VALUES
 (15, 'HAPPY DAY ESCAPADE'),
 (16, 'FASTBREAK');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `shop_cart_tmp`
+--
+
+CREATE TABLE `shop_cart_tmp` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `promo_id` int(11) NOT NULL,
+  `item_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `amount` decimal(18,2) NOT NULL,
+  `date_cart` datetime NOT NULL,
+  `promo_expire` char(1) NOT NULL DEFAULT 'N',
+  `tmp_user_id` varchar(255) NOT NULL,
+  `amount_retained` char(1) NOT NULL DEFAULT 'N'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `shop_cart_tmp`
+--
+
+INSERT INTO `shop_cart_tmp` (`id`, `user_id`, `promo_id`, `item_id`, `quantity`, `amount`, `date_cart`, `promo_expire`, `tmp_user_id`, `amount_retained`) VALUES
+(1, 0, 7757, 4057, 1, '1.00', '2019-02-04 13:57:15', 'N', '', 'N');
+
 --
 -- Indexes for dumped tables
 --
@@ -1097,6 +1123,12 @@ ALTER TABLE `promo_type`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `shop_cart_tmp`
+--
+ALTER TABLE `shop_cart_tmp`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -1141,6 +1173,12 @@ ALTER TABLE `promo_item_breakdown`
 --
 ALTER TABLE `promo_type`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT for table `shop_cart_tmp`
+--
+ALTER TABLE `shop_cart_tmp`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
