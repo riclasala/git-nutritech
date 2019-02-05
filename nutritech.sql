@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.0.1
+-- version 4.8.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 04, 2019 at 01:59 PM
--- Server version: 10.1.32-MariaDB
--- PHP Version: 7.2.5
+-- Generation Time: Feb 05, 2019 at 11:18 AM
+-- Server version: 10.1.37-MariaDB
+-- PHP Version: 7.3.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -1073,7 +1073,56 @@ CREATE TABLE `shop_cart_tmp` (
 --
 
 INSERT INTO `shop_cart_tmp` (`id`, `user_id`, `promo_id`, `item_id`, `quantity`, `amount`, `date_cart`, `promo_expire`, `tmp_user_id`, `amount_retained`) VALUES
-(1, 0, 7757, 4057, 1, '1.00', '2019-02-04 13:57:15', 'N', '', 'N');
+(1, 0, 7757, 4057, 1, '1.00', '2019-02-04 13:57:15', 'N', '', 'N'),
+(2, 0, 7627, 3253, 1, '1.00', '2019-02-05 09:49:09', 'N', '', 'N');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `shop_idcf`
+--
+
+CREATE TABLE `shop_idcf` (
+  `id` bigint(20) NOT NULL,
+  `sponsor_id` bigint(20) NOT NULL,
+  `last_name` varchar(255) NOT NULL,
+  `first_name` varchar(255) NOT NULL,
+  `middle_name` varchar(255) NOT NULL,
+  `n_address` varchar(255) NOT NULL,
+  `birthdate` date NOT NULL,
+  `civil_status` varchar(255) NOT NULL,
+  `email_address` varchar(255) NOT NULL,
+  `n_mobile_no` varchar(255) NOT NULL,
+  `tin` varchar(255) NOT NULL,
+  `sss_no` varchar(255) NOT NULL,
+  `nick_name` varchar(255) NOT NULL,
+  `home_tel_no` varchar(255) NOT NULL,
+  `office_tel_no` varchar(255) NOT NULL,
+  `admin_fee` decimal(10,0) NOT NULL,
+  `s_last_name` varchar(255) NOT NULL,
+  `s_first_name` varchar(255) NOT NULL,
+  `s_middle_name` varchar(255) NOT NULL,
+  `s_mobile_no` varchar(255) NOT NULL,
+  `s_address` varchar(255) NOT NULL,
+  `shop_idcf_status` varchar(255) NOT NULL,
+  `tmp_user_id` varchar(255) NOT NULL,
+  `remarks` varchar(255) NOT NULL,
+  `img_path` varchar(255) NOT NULL,
+  `img_file_type` varchar(255) NOT NULL,
+  `cash_payment` varchar(1) NOT NULL,
+  `member` varchar(1) NOT NULL,
+  `depositing_bank` varchar(255) NOT NULL,
+  `deposit_ref_no` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `shop_idcf`
+--
+
+INSERT INTO `shop_idcf` (`id`, `sponsor_id`, `last_name`, `first_name`, `middle_name`, `n_address`, `birthdate`, `civil_status`, `email_address`, `n_mobile_no`, `tin`, `sss_no`, `nick_name`, `home_tel_no`, `office_tel_no`, `admin_fee`, `s_last_name`, `s_first_name`, `s_middle_name`, `s_mobile_no`, `s_address`, `shop_idcf_status`, `tmp_user_id`, `remarks`, `img_path`, `img_file_type`, `cash_payment`, `member`, `depositing_bank`, `deposit_ref_no`) VALUES
+(14, 0, 'LASALA', 'LANI', 'SALVADOR', 'BLK 1 LOT 8 ZONE 2 BRGY FORT BONIFACIO TAGUIG', '1960-11-27', 'MARRIED', 'LANILASALA@GMAIL.COM', '09951995918', '', '', 'LANI', '', '', '0', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', '', '', '', '', '', '', 'N', '', ''),
+(15, 0, 'LASALA', 'RICARDO JR', 'SALVADOR', 'BLK 1 LOT 8 ZONE 2 BRGY FORT BONIFACIO TAGUIG', '1987-11-17', 'MARRIED', 'RICARDOSLASALAJR@GMAIL.COM', '09055785041', '', '', 'CARDO', '', '', '0', 'LASALA', 'MELEN', 'CABILAN', '09260356884', 'N/A', '', '', '', '', '', '', 'N', '', ''),
+(16, 0, 'LASALA', 'MELEN', 'CABILAN', 'BLK 1 LOT 8 ZONE 2 BRGY FORT BONIFACIO TAGUIG', '1987-07-03', 'MARRIED', '', '09260356884', '', '', '', '', '', '0', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', '', '', '', '', '', '', 'N', '', '');
 
 --
 -- Indexes for dumped tables
@@ -1129,6 +1178,12 @@ ALTER TABLE `shop_cart_tmp`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `shop_idcf`
+--
+ALTER TABLE `shop_idcf`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -1178,7 +1233,13 @@ ALTER TABLE `promo_type`
 -- AUTO_INCREMENT for table `shop_cart_tmp`
 --
 ALTER TABLE `shop_cart_tmp`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `shop_idcf`
+--
+ALTER TABLE `shop_idcf`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
