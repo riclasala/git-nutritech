@@ -16,7 +16,7 @@ class Pages extends CI_Controller{
 	public function save_idcf()
 	{
 		$data = array('success' => false, 'messages' => array());
-
+		
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules("last_name", "Last Name", "trim|required");
 		$this->form_validation->set_rules("first_name", "First Name", "trim|required");
@@ -26,6 +26,8 @@ class Pages extends CI_Controller{
 		$this->form_validation->set_error_delimiters('<p class="text-danger">', '</p>');
 		if ($this->form_validation->run()) {
 			$data['success'] = true;
+			$this->load->model("Online_IDCF_model");
+			$this->Online_IDCF_model->insert_idcf($data);
 		}
 		else {
 			foreach ($_POST as $key => $value) {
