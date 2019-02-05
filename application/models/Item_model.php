@@ -2,8 +2,29 @@
 
 class Item_model extends CI_Model
 {
-	public function getamount($promo_id, $retained){
-		return 2.00;
+	public function getamount($item_id, $retained, $rate = 0){
+		$query = $this->db->get_where('items', array('item_id' => $item_id));
+		$result = $query->row();
+
+		$tsp = $result->unit_price;
+		if ($retained == 'Y'){
+			$nsp = $result->nsp;
+			$pse = $result->pse;
+			$wtax = 10;
+
+			if ($pse > 0){
+				$wtax_amount = round($pse * ($wtax / 100), 2);
+				$net_pse = $pse - $wtax_amount;
+				$amount = $tsp - $net_pse;
+			} else {
+				$pse = round($nsp * ($rate / 100), 2);
+				$wtax_amount = round($pse * ($wtax / 100), 2);
+				$net_pse = $pse - $wtax_amount;
+				$amount = $tsp - $net_pse;
+			}
+			return $amount;
+		}
+		return $tsp;
 	}
 
 	public function load_items($server_ip)

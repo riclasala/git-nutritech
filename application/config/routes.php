@@ -10,6 +10,13 @@ $route['login'] = 'login/index';
 $route['members/login'] = 'members/index';
 
 $route['carts'] = 'carts/index';
+$route['checkout'] = 'carts/checkout';
+
+$route['booster'] = 'items/booster';
+$route['first_class'] = 'items/first_class';
+$route['fastbreak'] = 'items/fastbreak';
+$route['specials'] = 'items/specials';
+$route['other_promo'] = 'items/other_promo';
 
 /* LOAD DATABASE */
 $route['load_items'] = 'items/load_items';

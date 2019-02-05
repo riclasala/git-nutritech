@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="description" content="Shop Online Page and Portal Page for Nutritech Alliance Corporation.">
 		<meta name="author" content="Jomar Gregorio, Ricardo Lasala, and Other contributors">
 		<meta name="generator" content="Shop Online 2.0.0">
@@ -24,11 +24,11 @@
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
 			<div class="container">
 				<small>
-					<a href="<?php echo base_url(); ?>cart" class="text-white" style="text-decoration: none;"><i class="fas fa-shopping-cart"></i> My Cart </a> &nbsp;&nbsp;
-					<a href="#" class="text-white" style="text-decoration: none;"><i class="fas fa-check"></i> Check Out </a>
+					<a href="<?php echo base_url(); ?>carts" class="text-white" style="text-decoration: none;"><i class="fas fa-shopping-cart"></i> My Cart </a> &nbsp;&nbsp;
+					<a href="<?php echo base_url(); ?>checkout" class="text-white" style="text-decoration: none;"><i class="fas fa-check"></i> Check Out </a>
 				</small>
 				<small class="pull-right">
-					<a href="#" class="text-white" style="text-decoration: none;"><i class="fas fa-power-off"></i> Sign Out</a>
+					<a href="<?php echo base_url(); ?>login" class="text-white" style="text-decoration: none;"><i class="fas fa-power-off"></i> Sign Out</a>
 				</small>
 			</div>
 		</nav>
@@ -80,7 +80,7 @@
 							</div>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="<?php echo base_url(); ?>items/13">First Class Collection</a>
+							<a class="nav-link" href="<?php echo base_url(); ?>first_class">First Class Collection</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="<?php echo base_url(); ?>booster">Booster</a>

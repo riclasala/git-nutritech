@@ -4,14 +4,12 @@
 			<div class="list-group">
 				<a href="<?php echo base_url(); ?>booster" class="list-group-item">Booster Promo</a>
 				<a href="<?php echo base_url(); ?>specials" class="list-group-item">Specials Promo</a>
-				<a href="<?php echo base_url(); ?>presidents" class="list-group-item">Presidents Promo</a>
-				<a href="<?php echo base_url(); ?>others" class="list-group-item">Other Promo</a>
+				<a href="<?php echo base_url(); ?>other_promo" class="list-group-item">Other Promos</a>
 			</div>
 		</div>
 		<!-- /.col-lg-3 -->
 
 		<div class="col-lg-9">
-
 			<div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
 			<ol class="carousel-indicators">
 				<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>

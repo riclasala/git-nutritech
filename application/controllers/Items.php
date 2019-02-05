@@ -13,6 +13,7 @@ class Items extends CI_Controller{
 		$this->load->model('promo_item_breakdown_model');
 
 		$data['title'] = $this->item_class_model->fetch_class($class_id);
+		$retained = "N";
 
 		$item_array = array();
 		$items = $this->item_model->item_per_class($class_id);
@@ -28,7 +29,7 @@ class Items extends CI_Controller{
 				$promo_array[] = array(
 					'promo_id' => $key['promo_id'],
 					'promo_description' => $key['promo_description'],
-					'tsp' => $key['tsp'],
+					'tsp' => $this->promo_item_model->getamount($key['promo_id'], $retained),
 					'breakdown_array' => $breakdowns
 				);
 			}
@@ -36,7 +37,7 @@ class Items extends CI_Controller{
 			$item_array[] = array(
 				'item_id' => $row['item_id'],
 				'item_description' => $row['item_description'],
-				'unit_price' => $row['unit_price'],
+				'unit_price' => $this->item_model->getamount($row['item_id'], $retained),
 				'item_photo' => $row['item_photo'],
 				'promo_array' => $promo_array
 			);
@@ -48,6 +49,51 @@ class Items extends CI_Controller{
 
 		$this->load->view('layouts/header');
 		$this->load->view('items/item_list', $data);
+		$this->load->view('layouts/footer');
+	}
+
+	public function booster()
+	{
+		$data['title'] = "Booster Promo";
+
+		$this->load->view('layouts/header');
+		$this->load->view('items/booster', $data);
+		$this->load->view('layouts/footer');
+	}
+
+	public function specials()
+	{
+		$data['title'] = "Specials Promo";
+
+		$this->load->view('layouts/header');
+		$this->load->view('items/specials', $data);
+		$this->load->view('layouts/footer');
+	}
+
+	public function first_class()
+	{
+		$data['title'] = "First Class Collection";
+
+		$this->load->view('layouts/header');
+		$this->load->view('items/first_class', $data);
+		$this->load->view('layouts/footer');
+	}
+
+	public function fastbreak()
+	{
+		$data['title'] = "Fastbreak Promo";
+
+		$this->load->view('layouts/header');
+		$this->load->view('items/fastbreak', $data);
+		$this->load->view('layouts/footer');
+	}
+
+	public function other_promo()
+	{
+		$data['title'] = "Other Promos";
+
+		$this->load->view('layouts/header');
+		$this->load->view('items/other_promo', $data);
 		$this->load->view('layouts/footer');
 	}
 

@@ -2,11 +2,34 @@
 
 class Promo_item_model extends CI_Model
 {
-	public function getamount($promo_id, $retained){
-		return 1.00;
+	public function getamount($promo_id, $retained, $rate = 0){
+		$query = $this->db->get_where('promo_items', array('promo_id' => $promo_id));
+		$result = $query->row();
+
+		$tsp = $result->tsp;
+
+		if ($retained == 'Y'){
+			$nsp = $result->nsp;
+			$pse = $result->pse;
+			$wtax = 10;
+
+			if ($pse > 0){
+				$wtax_amount = round($pse * ($wtax / 100), 2);
+				$net_pse = $pse - $wtax_amount;
+				$amount = $tsp - $net_pse;
+			} else {
+				$pse = round($nsp * ($rate / 100), 2);
+				$wtax_amount = round($pse * ($wtax / 100), 2);
+				$net_pse = $pse - $wtax_amount;
+				$amount = $tsp - $net_pse;
+			}
+			return $amount;
+		}
+		return $tsp;
 	}
 
-	public function load_promo($server_ip){
+	public function load_promo($server_ip)
+	{
 		$url = 'http://'.$server_ip.'/nutritech_api/product/reload_promos';
 		$qstring = array('X-API-KEY' => '12345');
 		$query = http_build_query($qstring);
@@ -50,8 +73,8 @@ class Promo_item_model extends CI_Model
 		);
 		$this->db->where($array);
 
-		$this->db->where('promo_items.promo_period_from <= now()');
-		$this->db->where('promo_items.promo_period_to <= now()');
+		$this->db->where('promo_items.promo_period_from <= date(now())');
+		$this->db->where('promo_items.promo_period_to <= date(now())');
 
 		$this->db->group_start();
 		$this->db->where('promo_item_breakdown.item_id', $item_id);

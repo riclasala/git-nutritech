@@ -1,18 +1,40 @@
 <?php
 class Shop_cart_model extends CI_Model
 {
-	public function create_cart($user_id, $tmp_user_id, $retained){
-		$item_id = $this->input->post('item_id');
-		$promo_id = $this->input->post('promo_id');
+	public function check_duplicate($user_id, $tmp_user_id, $item_id, $promo_id){
+		$query =$this->db->get_where('shop_cart_tmp', array(
+			'user_id' => $user_id,
+			'tmp_user_id' => $tmp_user_id,
+			'item_id' => $item_id,
+			'promo_id' => $promo_id
+		));
+		return $query->num_rows();
+	}
 
-		$amount = 0;
+	public function update_cart($user_id, $tmp_user_id, $item_id, $promo_id){
+		$query =$this->db->get_where('shop_cart_tmp', array(
+			'user_id' => $user_id,
+			'tmp_user_id' => $tmp_user_id,
+			'item_id' => $item_id,
+			'promo_id' => $promo_id
+		));
+
+		$result = $query->row();
+
+		$array = array('quantity' => $result->quantity + 1);
+		$this->db->where('id', $result->id);
+		$this->db->update('shop_cart_tmp', $array);
+	}
+
+	public function create_cart($user_id, $tmp_user_id, $retained, $item_id, $promo_id){
+		$rate = 20; //get the rate by using user_id (sample only)
 
 		if($promo_id > 0){
 			$this->load->model('promo_item_model');
-			$amount = $this->promo_item_model->getamount($promo_id, $retained);
+			$amount = $this->promo_item_model->getamount($promo_id, $retained, $rate);
 		} else {
 			$this->load->model('item_model');
-			$amount = $this->item_model->getamount($item_id, $retained);
+			$amount = $this->item_model->getamount($item_id, $retained, $rate);
 		}
 
 		$details = array(
@@ -30,12 +52,26 @@ class Shop_cart_model extends CI_Model
 		$this->db->set($details)->insert('shop_cart_tmp');
 	}
 
-	public function fetch_cart($user_id, $tmp_user_id){
-		$query = $this->db->get_where('shop_cart_tmp', array('user_id' => $user_id, 
-			'tmp_user_id' => $tmp_user_id,
-			'promo_expire' => 'N'
-		));
+	public function total_cart($user_id, $tmp_user_id){
+		$this->db->select('sum(amount * quantity) as amount');
+		$query = $this->db->get('shop_cart_tmp');
+		$result = $query->row();
 
+		return $result->amount;
+	}
+
+	public function fetch_cart($user_id, $tmp_user_id){
+		$this->db->select('shop_cart_tmp.amount, shop_cart_tmp.promo_id, shop_cart_tmp.amount, shop_cart_tmp.quantity, promo_items.promo_description, items.item_description');
+		$this->db->from('shop_cart_tmp');
+		$this->db->join('promo_items', 'promo_items.promo_id = shop_cart_tmp.promo_id', 'LEFT');
+		$this->db->join('items', 'items.item_id = shop_cart_tmp.item_id', 'INNER');
+		$this->db->where(
+			array('shop_cart_tmp.user_id' => $user_id, 
+				'shop_cart_tmp.tmp_user_id' => $tmp_user_id,
+				'shop_cart_tmp.promo_expire' => 'N'
+			));
+
+		$query = $this->db->get();
 		return $query->result_array();
 	}
 }
