@@ -15,13 +15,13 @@ class Carts extends CI_Controller{
 		$data['cart'] = $this->shop_cart_model->fetch_cart($user_id, $tmp_user_id);
 
 		$this->load->view('layouts/header');
-		$this->load->view('pages/cart', $data);
+		$this->load->view('carts/index', $data);
 		$this->load->view('layouts/footer');
 	}
 
 	public function checkout(){
 		$this->load->view('layouts/header');
-		$this->load->view('pages/checkout');
+		$this->load->view('carts/checkout');
 		$this->load->view('layouts/footer');
 	}
 
@@ -39,6 +39,10 @@ class Carts extends CI_Controller{
 		} else {
 			$this->shop_cart_model->create_cart($user_id, $tmp_user_id, $retained, $item_id, $promo_id);
 		}
-		redirect('checkout');
+
+		$buy = $this->input->post('Buy');
+		if(isset($buy)){
+			redirect('checkout');
+		}
 	}
 }
