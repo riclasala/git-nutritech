@@ -53,14 +53,18 @@ class Item_model extends CI_Model
 				'nsp' =>  $row['nsp'],
 				'pse' =>  $row['pse'],
 				'item_photo' =>  $row['item_photo'],
-				'sequence' =>  $row['sequence']
+				'sequence' =>  $row['sequence'],
+				'main_item' => $row['main_item']
 			);
 			$this->save($item_arr);
 		}
 	}
 
 	public function item_per_class($class_id){
-		$query = $this->db->get_where('items', array('item_class_id' => $class_id));
+		$query = $this->db->get_where('items', array(
+			'item_class_id' => $class_id, 
+			'main_item' => 'Y'
+		));
 		return $query->result_array();
 	}
 
@@ -83,7 +87,8 @@ class Item_model extends CI_Model
 			'nsp' =>  $details['nsp'],
 			'pse' =>  $details['pse'],
 			'item_photo' =>  $details['item_photo'],
-			'sequence' =>  $details['sequence']
+			'sequence' =>  $details['sequence'],
+			'main_item' => $details['main_item']
 		);
 	}
 }

@@ -1,6 +1,31 @@
 <?php
 class Item_package_model extends CI_Model
 {
+	public function getamount($item_package_id, $retained, $rate = 0){
+		$query = $this->db->get_where('item_packages', array('id' => $item_package_id));
+		$result = $query->row();
+
+		$tsp = $result->unit_price;
+		if ($retained == 'Y'){
+			$nsp = round($tsp / 1.12, 2);
+			$wtax = 10;
+
+			$pse = round($nsp * ($rate / 100), 2);
+			$wtax_amount = round($pse * ($wtax / 100), 2);
+			$net_pse = $pse - $wtax_amount;
+			$amount = $tsp - $net_pse;
+			return $amount;
+		}
+		return $tsp;
+	}
+
+	public function item_per_package(){
+		$this->db->from('item_packages');
+		$this->db->order_by('sequence', 'ASC');
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
 	public function load_packages($server_ip){
 		//load latest packages details
 		$url = 'http://'.$server_ip.'/nutritech_api/product/reload_packages';

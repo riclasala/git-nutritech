@@ -8,7 +8,7 @@
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<hr />
 						<a id="back-to-top" href="#" class="fixed-bottom btn btn-primary btn-lg back-to-top" role="button" title="Click to return on the top page" data-toggle="tooltip" data-placement="left">
-						<span class="glyphicon glyphicon-chevron-up"> ^ </span>
+							<i class="fas fa-angle-double-up"></i>
 						</a>
 						<p class="m-0">Copyright &copy; NutriTECH Alliance Corporation 2019</p>
 						<br />

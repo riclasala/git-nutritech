@@ -12,6 +12,7 @@ $route['members/login'] = 'members/index';
 $route['carts'] = 'carts/index';
 $route['checkout'] = 'carts/checkout';
 
+$route['home'] = 'items/home';
 $route['booster'] = 'items/booster';
 $route['first_class'] = 'items/first_class';
 $route['fastbreak'] = 'items/fastbreak';

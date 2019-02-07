@@ -63,13 +63,13 @@ class Shop_cart_model extends CI_Model
 	public function fetch_cart($user_id, $tmp_user_id){
 		$this->db->select('shop_cart_tmp.amount, 
 			shop_cart_tmp.promo_id, 
-			shop_cart_tmp.amount, 
+			shop_cart_tmp.amount,
 			shop_cart_tmp.quantity, 
 			promo_items.promo_description,
 			items.item_description');
 		$this->db->from('shop_cart_tmp');
 		$this->db->join('promo_items', 'promo_items.promo_id = shop_cart_tmp.promo_id', 'LEFT');
-		$this->db->join('items', 'items.item_id = shop_cart_tmp.item_id', 'INNER');
+		$this->db->join('items', 'items.item_id = shop_cart_tmp.item_id', 'LEFT');
 		$this->db->where(
 			array('shop_cart_tmp.user_id' => $user_id, 
 				'shop_cart_tmp.tmp_user_id' => $tmp_user_id,

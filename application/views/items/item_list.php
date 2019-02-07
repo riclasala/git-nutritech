@@ -5,7 +5,7 @@
 				<?php foreach($items as $row) { ?>
 					<div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
 						<div class="card h-100">
-							<img class="card-img-top" src="<?php echo base_url(); ?>assets/images/products/<?php echo $row['item_photo']; ?>" alt="<?php echo $row['item_description'] ?>">
+							<img class="card-img-top" src="<?php echo base_url(); ?>assets/images/products/<?php echo $row['item_photo']; ?>" alt="<?php echo $row['item_description']; ?>">
 							<div class="card-body">
 								<h6 class="card-title"><?php echo $row['item_description']; ?></h6>
 								<p class="card-text">
@@ -22,26 +22,24 @@
 												</div>
 												<div class="col-lg-12 col-md-5 col-sm-5 col-xs-5">
 													<small>
-														<b>BONUS</b>:<br />
-														<?php if(count($promo['breakdown_array']) >= 1) { ?>
+														<?php if(count($promo['breakdown_array']) > 0) { ?>
+															<b>BONUS</b>:<br />
 															<ul>
 																<?php foreach($promo['breakdown_array'] as $brk) { ?>
 																	<?php if ($brk['transaction_qty'] == 1) { ?>
 																		<li><?php echo $brk['item_description']; ?></li>
 																	<?php } else { ?>
-																		<li><?php echo $brk['transaction_qty']; ?> x <?php echo $brk['item_description']; ?></li>
+																		<li>(<?php echo $brk['transaction_qty']; ?>) <?php echo $brk['item_description']; ?></li>
 																	<?php } ?>
 																<?php } ?>
 															</ul>
-														<?php } else { ?>
-															-
 														<?php } ?>
 													</small>
 												</div>
 
 												<div class="col-lg-12 col-md-3 col-sm-3 col-xs-3 text-center">
 													<?php echo form_open('carts/create'); ?>
-														<input type="hidden" name="item_id" id="item_id_0_x_<?php echo $promo['promo_id']; ?>" value="<?php echo $row['item_id']; ?>" />
+														<input type="hidden" name="item_id" id="item_id_0_x_<?php echo $promo['promo_id']; ?>" value="0" />
 														<input type="hidden" name="promo_id" id="promo_id_0_x_<?php echo $promo['promo_id']; ?>" value="<?php echo $promo['promo_id']; ?>" />
 														<button type="submit" class="btn btn-success btn-sm" name="Buy">
 															<i class="fas fa-check"></i> Buy Now
@@ -112,9 +110,9 @@
 				}
 
 				function alertSuccess(){
-				    $('#myModal').modal();
+					$('#myModal').modal();
 
-				    setTimeout(function(){
+					setTimeout(function(){
 						$('#myModal').modal('hide')
 					}, 4000);
 				}

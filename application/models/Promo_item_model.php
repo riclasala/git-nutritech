@@ -6,7 +6,23 @@ class Promo_item_model extends CI_Model
 		$query = $this->db->get_where('promo_items', array('promo_id' => $promo_id));
 		$result = $query->row();
 
+		//check is_price_per_piece
+		$query1 = $this->db->get_where('promo_item_breakdown', array('con_id' => $promo_id, 
+			'is_price_per_unit' => 'Y',
+			'distribution_type_id' => 1,
+			'unit_price >' => 0
+		));
+		$result1 = $query1->result_array();
+		$transaction_qty = 1;
+		foreach ($result1 as $key) {
+			$transaction_qty = $key['transaction_qty'];
+		}
+
 		$tsp = $result->tsp;
+		//if is_price_per_piece then * qty
+		if (count($result1) > 0){
+			$tsp = $result->tsp * $transaction_qty;
+		}
 
 		if ($retained == 'Y'){
 			$nsp = $result->nsp;
@@ -67,20 +83,133 @@ class Promo_item_model extends CI_Model
 		$this->db->select('promo_items.*');
 		$this->db->from('promo_items');
 		$this->db->join('promo_item_breakdown', 'promo_item_breakdown.con_id = promo_items.promo_id', 'INNER');
-
 		$array = array('promo_items.item_package_id' => 0,
 			'promo_item_breakdown.distribution_type_id' => 1
 		);
 		$this->db->where($array);
-
 		$this->db->where('promo_items.promo_period_from <= date(now())');
-		$this->db->where('promo_items.promo_period_to <= date(now())');
+		$this->db->where('promo_items.promo_period_to >= date(now())');
 
 		$this->db->group_start();
 		$this->db->where('promo_item_breakdown.item_id', $item_id);
 		$this->db->or_where('promo_item_breakdown.item_bundle_id', $item_id);
 		$this->db->group_end();
 		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+	public function fetch_promos_packages($item_package_id){
+		$this->db->select('promo_items.*');
+		$this->db->from('promo_items');
+		$array = array('promo_items.item_package_id' => $item_package_id);
+		$this->db->where($array);
+		$this->db->where('promo_items.promo_period_from <= date(now())');
+		$this->db->where('promo_items.promo_period_to >= date(now())');
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+	public function fetch_promos_per_type($type){
+		//get without bundle and not first class
+		$this->db->select('promo_items.*, items.item_photo, promo_item_breakdown.item_id');
+		$this->db->from('promo_items');
+		$this->db->join('promo_item_breakdown', 'promo_item_breakdown.con_id = promo_items.promo_id', 'INNER');
+		$this->db->join('items', 'items.item_id = promo_item_breakdown.item_id', 'INNER');
+		$array = array(
+			'promo_items.item_package_id' => 0,
+			'promo_item_breakdown.distribution_type_id' => 1,
+			'promo_item_breakdown.item_bundle_id' => 0,
+			'promo_items.promo_type_id' => $type
+		);
+		$this->db->where($array);
+		$this->db->where('promo_items.promo_period_from <= date(now())');
+		$this->db->where('promo_items.promo_period_to >= date(now())');
+		$query1 = $this->db->get_compiled_select();
+
+		//bundle items
+		$this->db->distinct();
+		$this->db->select('promo_items.*, items.item_photo, promo_item_breakdown.item_bundle_id');
+		$this->db->from('promo_items');
+		$this->db->join('promo_item_breakdown', 'promo_item_breakdown.con_id = promo_items.promo_id', 'INNER');
+		$this->db->join('items', 'items.item_id = promo_item_breakdown.item_bundle_id', 'INNER');
+		$array = array(
+			'promo_items.item_package_id' => 0,
+			'promo_item_breakdown.distribution_type_id' => 1,
+			'promo_item_breakdown.item_bundle_id >' => 0,
+			'promo_items.promo_type_id' => $type
+		);
+		$this->db->where($array);
+		$this->db->where('promo_items.promo_period_from <= date(now())');
+		$this->db->where('promo_items.promo_period_to >= date(now())');
+		$query2 = $this->db->get_compiled_select();
+
+		//first class
+		$this->db->select('promo_items.*, item_packages.product_img, item_packages.id');
+		$this->db->from('promo_items');
+		$this->db->join('item_packages', 'item_packages.id = promo_items.item_package_id', 'INNER');
+		$array = array(
+			'promo_items.promo_type_id' => $type,
+			'promo_items.item_package_id >' => 0
+		);
+		$this->db->where($array);
+		$this->db->where('promo_items.promo_period_from <= date(now())');
+		$this->db->where('promo_items.promo_period_to >= date(now())');
+		$query3 = $this->db->get_compiled_select();
+
+		$query = $this->db->query($query1 . " UNION " . $query2 . " UNION " . $query3);
+		return $query->result_array();
+	}
+
+	public function fetch_promos_other(){
+		//get without bundle and not first class
+		$this->db->select('promo_items.*, items.item_photo, promo_item_breakdown.item_id');
+		$this->db->from('promo_items');
+		$this->db->join('promo_item_breakdown', 'promo_item_breakdown.con_id = promo_items.promo_id', 'INNER');
+		$this->db->join('items', 'items.item_id = promo_item_breakdown.item_id', 'INNER');
+		$array = array(
+			'promo_items.item_package_id' => 0,
+			'promo_item_breakdown.distribution_type_id' => 1,
+			'promo_item_breakdown.item_bundle_id' => 0
+		);
+		$this->db->where($array);
+
+		$promos = array(1, 2, 3, 16);
+		$this->db->where_not_in('promo_items.promo_type_id', $promos);
+		$this->db->where('promo_items.promo_period_from <= date(now())');
+		$this->db->where('promo_items.promo_period_to >= date(now())');
+		$query1 = $this->db->get_compiled_select();
+
+		//bundle items
+		$this->db->distinct();
+		$this->db->select('promo_items.*, items.item_photo, promo_item_breakdown.item_bundle_id');
+		$this->db->from('promo_items');
+		$this->db->join('promo_item_breakdown', 'promo_item_breakdown.con_id = promo_items.promo_id', 'INNER');
+		$this->db->join('items', 'items.item_id = promo_item_breakdown.item_bundle_id', 'INNER');
+		$array = array(
+			'promo_items.item_package_id' => 0,
+			'promo_item_breakdown.distribution_type_id' => 1,
+			'promo_item_breakdown.item_bundle_id >' => 0
+		);
+		$this->db->where($array);
+		$this->db->where_not_in('promo_items.promo_type_id', $promos);
+		$this->db->where('promo_items.promo_period_from <= date(now())');
+		$this->db->where('promo_items.promo_period_to >= date(now())');
+		$query2 = $this->db->get_compiled_select();
+
+		//first class
+		$this->db->select('promo_items.*, item_packages.product_img, item_packages.id');
+		$this->db->from('promo_items');
+		$this->db->join('item_packages', 'item_packages.id = promo_items.item_package_id', 'INNER');
+		$array = array(
+			'promo_items.item_package_id >' => 0
+		);
+		$this->db->where($array);
+		$this->db->where_not_in('promo_items.promo_type_id', $promos);
+		$this->db->where('promo_items.promo_period_from <= date(now())');
+		$this->db->where('promo_items.promo_period_to >= date(now())');
+		$query3 = $this->db->get_compiled_select();
+
+		$query = $this->db->query($query1 . " UNION " . $query2 . " UNION " . $query3);
 		return $query->result_array();
 	}
 
