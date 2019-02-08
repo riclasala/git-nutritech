@@ -12,6 +12,9 @@ $route['members/login'] = 'members/index';
 $route['carts'] = 'carts/index';
 $route['checkout'] = 'carts/checkout';
 
+$route['membership'] = 'idcf/view';
+$route['idcf'] = 'idcf/idcf_membership';
+
 $route['home'] = 'items/home';
 $route['booster'] = 'items/booster';
 $route['first_class'] = 'items/first_class';
@@ -27,7 +30,7 @@ $route['load_promo'] = 'items/load_promo';
 $route['load_breakdown'] = 'items/load_breakdown';
 
 $route['items/(:any)'] = 'items/item_list/$1'; 
-$route['default_controller'] = 'pages/view';
+$route['default_controller'] = 'items/home';
 $route['(:any)'] = 'pages/view/$1';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
