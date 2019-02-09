@@ -2,12 +2,15 @@
 	class Idcf extends CI_Controller{
 		public function __construct(){
 			parent::__construct();
+			$this->load->helper('site_settings');
 			$this->load->library('form_validation');
 			$this->load->model('online_idcf_model');
 		}
 
 		public function view(){
-			$data["member"] = $this->online_idcf_model->fetch_sponsor_info(1);
+			$server_ip = _ip_url();
+			$distributor_id = 23089; //this should be session
+			$data["member"] = $this->online_idcf_model->fetch_sponsor_info($server_ip, $distributor_id);
 			$this->load->view('layouts/header');
 			$this->load->view('idcf/membership',$data);
 			$this->load->view('layouts/footer');
@@ -46,6 +49,7 @@
 		}
 
 		private function idcf_details($data){
+			$sponsor_id		= 	$this->input->post("sponsor_id");
 			$last_name 		= 	strtoupper(trim($this->input->post("last_name")));
 			$first_name 	= 	strtoupper(trim($this->input->post("first_name")));
 			$middle_name 	= 	strtoupper(trim($this->input->post("middle_name")));
@@ -66,6 +70,7 @@
 			$s_address 		= 	'N/A';
 			$member 		= 	'N';
 			return array (
+				"sponsor_id"	=>	$sponsor_id,
 				"last_name" 	=> 	$last_name,
 				"first_name" 	=> 	$first_name,
 				"middle_name" 	=> 	$middle_name,

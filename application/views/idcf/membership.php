@@ -1,6 +1,6 @@
 <div class="container-fluid">
 	<?php echo form_open_multipart("idcf/save_idcf", array("id" => "form-idcf", "class" => "form-horizontal")) ?>
-		<center><h4 class="mb-3">CERTIFIED CONSULTANT'S INFORMATION</h4></center>
+		<center><h4 class="my-4">CERTIFIED CONSULTANT'S INFORMATION</h4></center>
 		<div class="row">
 			<div class="col-sm-9"">
 				<div class="row">
@@ -83,7 +83,7 @@
 				</div>
 	    	</div>
 		</div>
-		<center><h4 class="mb-3">SPOUSE'S INFORMATION</h4></center>
+		<center><h4 class="my-4">SPOUSE'S INFORMATION</h4></center>
 		<div class = "row">
 			<div class = "form-group col-xs-12 col-sm-12 col-md-3 col-lg-3">
 				<label for = "s_last_name">Last Name</label>
@@ -102,28 +102,29 @@
 				<input type = "text" class = "form-control spouse_info" placeholder = "Mobile No." id = "s_mobile_no"  name = "s_mobile_no" />
 			</div>
 		</div>
-		<center><h4 class="mb-3">SPONSOR'S INFORMATION</h4></center>
+		<center><h4 class="my-4">SPONSOR'S INFORMATION</h4></center>
 		<div class = "row">
-			<?php foreach($member->result() as $distributor){ ?>
+			<?php foreach($member as $distributor){ ?>
+				<input type = "hidden" class = "form-control" placeholder = "ID" id = "sponsor_id" name = "sponsor_id" readonly = "" value = "<?= $distributor['id']; ?>" />
 				<div class = "form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
 					<label for = "sponsor_last_name">Last Name *</label>
-					<input type = "text" class = "form-control" placeholder = "Last Name" id = "sponsor_last_name" readonly = "" value = "<?= $distributor->last_name; ?>" />
+					<input type = "text" class = "form-control" placeholder = "Last Name" id = "sponsor_last_name" readonly = "" value = "<?= $distributor['last_name']; ?>" />
 				</div>
 				<div class = "form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
 					<label for = "sponsor_first_name">First Name *</label>
-					<input type = "text" class = "form-control" placeholder = "First Name" id = "sponsor_first_name" readonly = "" value = "<?= $distributor->first_name; ?>" />
+					<input type = "text" class = "form-control" placeholder = "First Name" id = "sponsor_first_name" readonly = "" value = "<?= $distributor['first_name']; ?>" />
 				</div>
 				<div class = "form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
 					<label for = "sponsor_middle_name">Middle Name *</label>
-					<input type = "text" class = "form-control" placeholder = "Middle Name" id = "sponsor_middle_name" readonly = "" value = "<?= $distributor->middle_name; ?>" />
+					<input type = "text" class = "form-control" placeholder = "Middle Name" id = "sponsor_middle_name" readonly = "" value = "<?= $distributor['middle_name']; ?>" />
 				</div>
 				<div class = "form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
 					<label for = "sponsor_ntac_code">NTAC Code *</label>
-					<input type = "text" class = "form-control" placeholder = "NTAC Code" id = "sponsor_ntac_code"  readonly = "" value = "<?= $distributor->distributor_code; ?>" />
+					<input type = "text" class = "form-control" placeholder = "NTAC Code" id = "sponsor_ntac_code"  readonly = "" value = "<?= $distributor['distributor_code']; ?>" />
 				</div>
 				<div class = "form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
 					<label for = "sponsor_team_name">Team Name *</label>
-					<input type = "text" class = "form-control" placeholder = "NTAC Code" id = "sponsor_team_name"  readonly = "" value = "Eagle - Positive Mental Attitude - Mindanao" />
+					<input type = "text" class = "form-control" placeholder = "NTAC Code" id = "sponsor_team_name"  readonly = "" value = "<?= $distributor['team_area']; ?>" />
 				</div>
 			<?php } ?>
 		</div>
