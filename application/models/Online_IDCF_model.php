@@ -3,6 +3,8 @@
 		
 		public function insert_idcf($idcf_details){
 			$this->db->insert("shop_idcf",$idcf_details);
+			$last_id = $this->db->insert_id();
+			return $last_id;
 		}
 		public function fetch_sponsor_info($server_ip,$id){
 			$url = 'http://'.$server_ip.'/nutritech_api/sponsor/'.$id;
@@ -19,6 +21,10 @@
 
 			$distributor = json_decode($response, TRUE);
 			return $distributor;
+		}
+		public function fetch_new_distributor_summary($id){
+			$query = $this->db->get_where('shop_idcf', array('id' => $id));
+			return $query->result_array();
 		}
 	}
 ?>

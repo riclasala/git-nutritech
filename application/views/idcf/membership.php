@@ -2,6 +2,20 @@
 	<?php echo form_open_multipart("idcf/save_idcf", array("id" => "form-idcf", "class" => "form-horizontal")) ?>
 		<center><h4 class="my-4">CERTIFIED CONSULTANT'S INFORMATION</h4></center>
 		<div class="row">
+			<div class="col-sm-3">
+				<!--Image Upload Here-->
+	    		<div class = "imageupload panel panel-default">
+					<div Class = "file-tab panel-body" style = "height: 220px; min-height: 220px;">
+						<img src = "<?= base_url('assets/images/avatar.png') ?>" class="img-circle" style = "width: 100%; height: 150px; min-height: 150px; border: 1px solid #ddd; margin-bottom: 10px; padding: 4px;" alt = "Image Preview" />
+						<label Class = "btn btn-default btn-file">
+							<span>Choose Profile</span>
+							<!-- The file is stored here. -->
+							<input type = "file" name = "image_file" id = "d_file_img" accept='image/*' style = "display: block; font-size: inherit; width: 100%;"/>
+						</label>
+						<button type = "button" class = "btn btn-default" id = "r_img">Remove</button>
+					</div>			
+				</div>
+	    	</div>
 			<div class="col-sm-9"">
 				<div class="row">
 	        		<div class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
@@ -65,23 +79,7 @@
 					</div>
 			    </div>
 			</div>
-	    	<div class="col-sm-3">
-	    		<!--Image Upload Here-->
-	    		<div class = "imageupload panel panel-default" style = "margin-bottom: 0px; margin-top: 4px;">
-					<div Class = "panel-heading clearfix">
-						<h3 Class = "panel-title pull-left text-center">Upload Image *</h3>
-					</div>
-					<div Class = "file-tab panel-body" style = "height: 220px; min-height: 220px;">
-						<img src = "<?= base_url('assets/images/avatar.png') ?>" id = "dummy_file_img" style = "width: 100%; height: 150px; min-height: 150px; border: 1px solid #ddd; margin-bottom: 10px; padding: 4px;" alt = "Image Preview" />
-						<label Class = "btn btn-default btn-file">
-							<span>Browse</span>
-							<!-- The file is stored here. -->
-							<input type = "file" name = "image_file" id = "d_file_img" style = "display: block; font-size: inherit; width: 100%;" />
-						</label>
-						<button type = "button" class = "btn btn-default" id = "r_img">Remove</button>
-					</div>			
-				</div>
-	    	</div>
+	    	
 		</div>
 		<center><h4 class="my-4">SPOUSE'S INFORMATION</h4></center>
 		<div class = "row">
@@ -132,11 +130,32 @@
 	</form>
 </div>
 
-
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/bootstrap-imageupload.min.js"></script>
 <script>
-	$(document).ready(function(){
-	  $(".idcf_agreement_toggle").click(function(){
-	    $(".idcf_agreement").toggle();
-	  });
+	
+	var $imageupload = $('.imageupload');
+	$imageupload.imageupload();
+
+	$('#imageupload-disable').on('click', function() {
+		$imageupload.imageupload('disable');
+		$(this).blur();
+	})
+
+	$('#imageupload-enable').on('click', function() {
+		$imageupload.imageupload('enable');
+		$(this).blur();
+	})
+
+	$('#imageupload-reset').on('click', function() {
+		$imageupload.imageupload('reset');
+		$(this).blur();
+	});
+	$("#r_img").on("click", function(){
+		//$("#dummy_file_img").removeClass("thumbnail");
+		$("#dummy_file_img").attr("src", "<?= base_url('assets/images/avatar.png') ?>");
+		$("#dummy_file_img").attr("style", "width: 100%; height: 150px; min-height: 150px; border: 1px solid #ddd; margin-bottom: 10px; padding: 4px;");
+
 	});
 </script>
+
+		

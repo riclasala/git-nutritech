@@ -16,26 +16,32 @@
 			$this->load->view('layouts/footer');
 		}
 
-		public function idcf_membership(){
-
-			$this->load->view('idcf/idcf_success');
+		public function idcf_membership($id){
+			//$server_ip = _ip_url();
+			//$distributor_id = 23089; //this should be session
+			//$data["member"] = $this->online_idcf_model->fetch_new_distributor_summary($server_ip, $distributor_id);
+			$data['member'] =  $this->online_idcf_model->fetch_new_distributor_summary($id);
+			$this->load->view('idcf/idcf_success',$data);
 		}
 
 		public function save_idcf()
 		{
 			$data = array('success' => false, 'messages' => array());
-			
-			
+					
 			$this->form_validation->set_rules("last_name", "Last Name", "trim|required");
 			$this->form_validation->set_rules("first_name", "First Name", "trim|required");
 			$this->form_validation->set_rules("home_address", "Home/Mailing Address", "trim|required");
 			$this->form_validation->set_rules("bday", "Birthday", "trim|required");
 			$this->form_validation->set_rules("mobile_no", "Mobile No.", "trim|required");
 			$this->form_validation->set_error_delimiters('<p class="text-danger">', '</p>');
+			
 			if ($this->form_validation->run()) {
 				//$data['success'] = true;
-				$this->online_idcf_model->insert_idcf($this->idcf_details($data));
-				redirect('idcf');
+				
+				$new_idcf_id = $this->online_idcf_model->insert_idcf($this->idcf_details($data));
+				$this->idcf_membership($new_idcf_id);
+				
+				//redirect('idcf');
 			}
 			else {
 				/*foreach ($_POST as $key => $value) {
@@ -48,7 +54,7 @@
 			
 		}
 
-		private function idcf_details($data){
+		public function idcf_details($data){
 			$sponsor_id		= 	$this->input->post("sponsor_id");
 			$last_name 		= 	strtoupper(trim($this->input->post("last_name")));
 			$first_name 	= 	strtoupper(trim($this->input->post("first_name")));
@@ -69,6 +75,15 @@
 			$s_mobile_no 	= 	$this->_isEmpty(strtoupper(trim($this->input->post("s_mobile_no"))));
 			$s_address 		= 	'N/A';
 			$member 		= 	'N';
+
+			$img = $this->_uploadImage($last_name, $first_name);
+
+			$img_name = "";
+			$img_type = "";
+			if($img != null or $img != ''){
+				$img_name = "distributors/" . $img["orig_name"];
+				$img_type = end(explode(".", $img_name));
+			}
 			return array (
 				"sponsor_id"	=>	$sponsor_id,
 				"last_name" 	=> 	$last_name,
@@ -89,6 +104,8 @@
 				"s_middle_name"	=> 	$s_middle_name,
 				"s_mobile_no"	=> 	$s_mobile_no,
 				"s_address"		=> 	$s_address,
+				"img_path"		=>	$img_name,
+				"img_file_type"	=>	$img_type,
 				"member"		=> 	$member
 			);
 		}
@@ -98,5 +115,21 @@
 				$data = 'N/A';
 			}
 			return $data;
+		}
+
+		private function _uploadImage($last_name,$first_name){
+			$img_info = "";
+			if($_FILES['image_file']['name']!='' or $_FILES['image_file']['name'] != null){
+				$config = array(
+					'file_name' => date('Ymd') . '_' . strtolower($last_name) . strtolower($first_name),
+					'upload_path' => "uploads/distributors/",
+					'upload_url' => base_url() . "uploads/distributors/",
+					'allowed_types' => "gif|jpg|png|jpeg"
+				);
+				$this->load->library('upload', $config);
+				$this->upload->do_upload('image_file');
+				$img_info = $this->upload->data();
+			}
+			return $img_info;
 		}
 	}
