@@ -25,8 +25,38 @@
 			<div class = "row">
 				<div class = "mx-auto p-3 border border-dark col-xs-12 col-sm-12 col-md-7 col-lg-7">
 					<div>
-					<img src = "<?php echo base_url(); ?>assets/images/idcf_member/header.jpg" width='100%' />
-					</div>
+						<img src = "<?php echo base_url(); ?>assets/images/idcf_member/header.jpg" width='100%' />
+					</div><br/>   
+					<?php foreach ($member as $row) {?>
+						<div>
+							<p>
+								Happy Day <b><?= $row['last_name'] . ', ' . $row['first_name'] . ' ' . $row['middle_name'] ?></b>!<br/>Welcome to NutriTECH.   
+							</p>
+							<p>APPLICATION SUCCESSFUL</p>  
+							<hr/>   
+							Transaction Details :    
+							<ol style = "list-style-type: none;"> 
+								<li>NutriTECHian Name : <u><?= $row['last_name'] . ', ' . $row['first_name'] . ' ' . $row['middle_name'] ?></u></li> 
+								<li>Sponsor : <u>SANTIAGO, CHARITO JORDAN</u></li>
+								<li>Team Name : <u>EAGLE - POSITIVE MENTAL ATTITUDE - MINDANAO</u></li>
+								<li>Home / Mailing Address : <u><?= $row['n_address'] ?></u></li>
+								<li>Birthdate : <u><?= $row['birthdate'] ?></u></li>
+								<li>Civil Status : <u><?= $row['civil_status'] ?></u></li>
+								<li>Email Address : <u><?= $row['email_address'] ?></u></li>
+								<li>Mobile No. : <u><?= $row['n_mobile_no'] ?></u></li>
+								<li>Landline : <u><?= $row['home_tel_no'] ?></u></li>    
+								<li>Office Tel. No. : <u><?= $row['office_tel_no'] ?></u></li>    
+								<li>TIN : <u><?= $row['tin'] ?></u></li>    
+								<li>SSS No. : <u><?= $row['sss_no'] ?></u></li>    
+								<li>Investment : <u>&#8369; 5,500.00</u></li>
+								<li>Spouse's Name : <u>N/A</u></li>
+								<li>Spouse's Mobile No. : <u>N/A</u></li>
+								<li>Remarks : <u>Will submit payment at NutriTECH Office</u></li>
+							</ol>
+							<br/>   
+							<a href='<?php echo base_url();?>'>Back to home</a>	
+						</div>
+					<?php }?>
 					<div>
 					<img src = "<?php echo base_url(); ?>assets/images/idcf_member/footer.jpg" width='100%' />
 					</div>
