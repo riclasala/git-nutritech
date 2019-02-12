@@ -5,7 +5,7 @@
 				<?php foreach($items as $row) { ?>
 					<div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
 						<div class="card h-100">
-							<img class="card-img-top" src="<?php echo base_url(); ?>assets/images/products/<?php echo $row['item_photo']; ?>" alt="<?php echo $row['item_description']; ?>">
+							<img class="card-img-top" src="<?php echo base_url(); ?>assets/images/products/250x180/<?php echo $row['item_photo']; ?>" alt="<?php echo $row['item_description']; ?>">
 							<div class="card-body">
 								<h6 class="card-title"><?php echo $row['item_description']; ?></h6>
 								<p class="card-text">

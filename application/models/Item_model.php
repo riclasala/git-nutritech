@@ -61,10 +61,14 @@ class Item_model extends CI_Model
 	}
 
 	public function item_per_class($class_id){
-		$query = $this->db->get_where('items', array(
+		$this->db->from('items');
+		$this->db->where(array(
 			'item_class_id' => $class_id, 
 			'main_item' => 'Y'
 		));
+		$this->db->order_by('sequence', 'ASC');
+		$query = $this->db->order_by('item_description', 'ASC')->get();
+
 		return $query->result_array();
 	}
 

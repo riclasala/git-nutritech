@@ -22,6 +22,14 @@ class Items extends CI_Controller{
 			$item_id = $row['item_id'];
 			$promos = $this->promo_item_model->fetch_promos($item_id);
 
+			$membership = "N";
+
+			//list of items for membership
+			$members_array = array(3409);
+			if (in_array($row['item_id'], $members_array)){
+				$membership = "Y";
+			}
+
 			$promo_array = array();
 			foreach ($promos as $key){
 				$promo_id = $key['promo_id'];
@@ -40,7 +48,8 @@ class Items extends CI_Controller{
 				'item_description' => $row['item_description'],
 				'unit_price' => $this->item_model->getamount($row['item_id'], $retained),
 				'item_photo' => $row['item_photo'],
-				'promo_array' => $promo_array
+				'promo_array' => $promo_array,
+				'membership' => $membership
 			);
 		}
 		$data['items'] = $item_array;
