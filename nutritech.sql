@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.0.1
+-- version 4.8.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 07, 2019 at 02:01 PM
--- Server version: 10.1.32-MariaDB
--- PHP Version: 7.2.5
+-- Generation Time: Feb 12, 2019 at 10:46 AM
+-- Server version: 10.1.37-MariaDB
+-- PHP Version: 7.3.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -1150,6 +1150,45 @@ INSERT INTO `shop_cart_tmp` (`id`, `user_id`, `promo_id`, `item_id`, `quantity`,
 (1, 0, 7759, 0, 1, '49500.00', '2019-02-07 13:59:03', 'N', '', 'N'),
 (2, 0, 7768, 0, 1, '44800.00', '2019-02-07 13:59:13', 'N', '', 'N');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `shop_idcf`
+--
+
+CREATE TABLE `shop_idcf` (
+  `id` bigint(20) NOT NULL,
+  `sponsor_id` bigint(20) NOT NULL,
+  `last_name` varchar(255) NOT NULL,
+  `first_name` varchar(255) NOT NULL,
+  `middle_name` varchar(255) NOT NULL,
+  `n_address` varchar(255) NOT NULL,
+  `birthdate` date NOT NULL,
+  `civil_status` varchar(255) NOT NULL,
+  `email_address` varchar(255) NOT NULL,
+  `n_mobile_no` varchar(255) NOT NULL,
+  `tin` varchar(255) NOT NULL,
+  `sss_no` varchar(255) NOT NULL,
+  `nick_name` varchar(255) NOT NULL,
+  `home_tel_no` varchar(255) NOT NULL,
+  `office_tel_no` varchar(255) NOT NULL,
+  `admin_fee` decimal(10,0) NOT NULL,
+  `s_last_name` varchar(255) NOT NULL,
+  `s_first_name` varchar(255) NOT NULL,
+  `s_middle_name` varchar(255) NOT NULL,
+  `s_mobile_no` varchar(255) NOT NULL,
+  `s_address` varchar(255) NOT NULL,
+  `shop_idcf_status` varchar(255) NOT NULL,
+  `tmp_user_id` varchar(255) NOT NULL,
+  `remarks` varchar(255) NOT NULL,
+  `img_path` varchar(255) NOT NULL,
+  `img_file_type` varchar(255) NOT NULL,
+  `cash_payment` varchar(1) NOT NULL,
+  `member` varchar(1) NOT NULL,
+  `depositing_bank` varchar(255) NOT NULL,
+  `deposit_ref_no` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 --
 -- Indexes for dumped tables
 --
@@ -1198,6 +1237,12 @@ ALTER TABLE `shop_cart_tmp`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `shop_idcf`
+--
+ALTER TABLE `shop_idcf`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -1242,6 +1287,12 @@ ALTER TABLE `promo_item_breakdown`
 --
 ALTER TABLE `shop_cart_tmp`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `shop_idcf`
+--
+ALTER TABLE `shop_idcf`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

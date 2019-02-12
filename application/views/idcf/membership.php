@@ -4,17 +4,18 @@
 		<div class="row">
 			<div class="col-sm-3">
 				<!--Image Upload Here-->
-	    		<div class = "imageupload panel panel-default">
-					<div Class = "file-tab panel-body" style = "height: 220px; min-height: 220px;">
-						<img src = "<?= base_url('assets/images/avatar.png') ?>" class="img-circle" style = "width: 100%; height: 150px; min-height: 150px; border: 1px solid #ddd; margin-bottom: 10px; padding: 4px;" alt = "Image Preview" />
+	    		<div class = "imageupload panel panel-default ">
+					<div Class = "file-tab panel-body">
 						<label Class = "btn btn-default btn-file">
-							<span>Choose Profile</span>
+							<img class="rounded-circle mx-auto" id="dummy_file_img1" src = "<?= base_url('assets/images/avatar.png') ?>" style = "width: 200px; min-width: 150px; max-width: 250px; height: 200px; min-height: 150px; max-height: 250px; border: 1px solid #000; padding: 4px;" alt = "Image Preview" />
+							<span>Choose Picture</span>
 							<!-- The file is stored here. -->
 							<input type = "file" name = "image_file" id = "d_file_img" accept='image/*' style = "display: block; font-size: inherit; width: 100%;"/>
 						</label>
 						<button type = "button" class = "btn btn-default" id = "r_img">Remove</button>
 					</div>			
 				</div>
+
 	    	</div>
 			<div class="col-sm-9"">
 				<div class="row">
@@ -122,17 +123,15 @@
 				</div>
 				<div class = "form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
 					<label for = "sponsor_team_name">Team Name *</label>
-					<input type = "text" class = "form-control" placeholder = "NTAC Code" id = "sponsor_team_name"  readonly = "" value = "<?= $distributor['team_area']; ?>" />
+					<input type = "text" class = "form-control" placeholder = "Team Name" id = "sponsor_team_name"  readonly = "" value = "<?= $distributor['team_area']; ?>" />
 				</div>
 			<?php } ?>
 		</div>
 		<button class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
 	</form>
 </div>
-
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/bootstrap-imageupload.min.js"></script>
 <script>
-	
 	var $imageupload = $('.imageupload');
 	$imageupload.imageupload();
 
@@ -152,10 +151,12 @@
 	});
 	$("#r_img").on("click", function(){
 		//$("#dummy_file_img").removeClass("thumbnail");
+		$("#dummy_file_img").attr("class", "rounded-circle mx-auto");
 		$("#dummy_file_img").attr("src", "<?= base_url('assets/images/avatar.png') ?>");
-		$("#dummy_file_img").attr("style", "width: 100%; height: 150px; min-height: 150px; border: 1px solid #ddd; margin-bottom: 10px; padding: 4px;");
-
+		$("#dummy_file_img").attr("style", "width: 200px; min-width: 150px; max-width: 250px; height: 200px; min-height: 150px; max-height: 250px; border: 1px solid #000; padding: 4px;");
+		
 	});
+	
 </script>
 
 		
