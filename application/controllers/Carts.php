@@ -45,4 +45,111 @@ class Carts extends CI_Controller{
 			redirect('checkout');
 		}
 	}
+
+	public function destroy(){
+		$user_id = 0;
+		$tmp_user_id = "";
+
+		$item_id = $this->input->post('item_id');
+		$promo_id = $this->input->post('promo_id');
+
+		$this->shop_cart_model->delete_cart($user_id, $tmp_user_id, $item_id, $promo_id);
+		$this->_cart($user_id, $tmp_user_id);
+	}
+
+	public function update(){
+		$user_id = 0;
+		$tmp_user_id = "";
+
+		$item_id = $this->input->post('item_id');
+		$promo_id = $this->input->post('promo_id');
+		$qty = $this->input->post('qty');
+
+		$this->shop_cart_model->update_cart($user_id, $tmp_user_id, $item_id, $promo_id, $qty);
+		$this->_cart($user_id, $tmp_user_id);
+	}
+
+	private function _cart($user_id, $tmp_user_id){
+		$cart = $this->shop_cart_model->fetch_cart($user_id, $tmp_user_id);
+		$total = $this->shop_cart_model->total_cart($user_id, $tmp_user_id);
+
+		$cart_items = '';
+		if (count($cart) > 0) {
+			foreach ($cart as $item) {
+				$cart_items .= '
+					<div class="row border-bottom">
+						<div class="col-2">
+							<input type="hidden" id="item_id_'. $item['item_id'] .'_x_'. $item['promo_id'] .'" value="'. $item['item_id'] .'" />
+							<input type="hidden" id="promo_id_'. $item['item_id'] .'_x_'. $item['promo_id'] .'" value="'. $item['promo_id'] .'" />
+							<button type="button" uniq="yes" class="btn btn-danger btn-sm" id="btn_'. $item['item_id'] .'_x_'. $item['promo_id']. '" style="margin-top: 5px; margin-bottom: 5px;">
+								<i class="fas fa-times"></i>
+							</button>
+						</div>
+
+						<div class="col">';
+							if ($item['promo_id'] > 0) {
+								$cart_items .= '<small>'. $item['promo_description'] .'</small>';
+							} else {
+								$cart_items .= '<small>'. $item['item_description'] .'</small>';
+							}
+				$cart_items .= '
+						</div>
+
+						<div class="col-lg-4 col-md-4 col-sm-8 col-xs-8 text-center">
+							<small>₱'. number_format($item['amount'], 2) .'</small> x ';
+
+				$options = array();
+				foreach (range(1, 10) as $i) {
+					$options[$i] = $i;
+				}
+				$cart_items .= form_dropdown('quantity', $options, $item['quantity'], 'id="qty_'. $item['item_id'] .'_x_'. $item['promo_id'] .'"');
+				$cart_items .= '
+						</div>
+						<div class="col-lg-2 col-md-2 col-sm-4 col-xs-4 text-right">
+							₱'. number_format($item['amount'] * $item['quantity'], 2) .'
+						</div>
+					</div>
+				';
+			}
+		} else {
+			$cart_items .= '
+				<div class="row border-bottom">
+					<div class="col text text-center">
+						NO ITEMS FOUND.
+					</div>
+				</div>
+			';
+		}
+
+
+		$cart_total = '';
+		$cart_total .= '
+			<div class="row border-bottom">
+				<div class="col text-right">
+					<b>TOTAL</b>:
+				</div>
+				<div class="col text-right">
+					<b>₱'. number_format($total, 2) .'</b>
+				</div>
+			</div>';
+
+			if (count($cart) > 0) {
+				$cart_total .= '
+					<br />
+					<div class="row text-center">
+						<div class="col-12">
+							<a href="'. base_url() .'checkout" class="btn btn-success btn-sm">
+								<i class="fas fa-check"></i> Proceed to Checkout
+							</a>
+						</div>
+					</div>
+					<hr />'
+				;
+			}
+
+		echo json_encode(array(
+			'cart_items' => $cart_items,
+			'cart_total' => $cart_total
+		));
+	}
 }

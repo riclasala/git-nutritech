@@ -11,7 +11,7 @@ class Shop_cart_model extends CI_Model
 		return $query->num_rows();
 	}
 
-	public function update_cart($user_id, $tmp_user_id, $item_id, $promo_id){
+	public function update_cart($user_id, $tmp_user_id, $item_id, $promo_id, $qty = 0){
 		$query =$this->db->get_where('shop_cart_tmp', array(
 			'user_id' => $user_id,
 			'tmp_user_id' => $tmp_user_id,
@@ -20,8 +20,14 @@ class Shop_cart_model extends CI_Model
 		));
 
 		$result = $query->row();
+		if ($qty == 0){
+			$qty = $result->quantity + 1;
+			if ($qty > 10) {
+				$qty = 10;
+			}
+		}
 
-		$array = array('quantity' => $result->quantity + 1);
+		$array = array('quantity' => $qty);
 		$this->db->where('id', $result->id);
 		$this->db->update('shop_cart_tmp', $array);
 	}
@@ -52,6 +58,15 @@ class Shop_cart_model extends CI_Model
 		$this->db->set($details)->insert('shop_cart_tmp');
 	}
 
+	public function delete_cart($user_id, $tmp_user_id, $item_id, $promo_id){
+		$this->db->delete('shop_cart_tmp', array(
+			'user_id' => $user_id,
+			'promo_id' => $promo_id,
+			'item_id' => $item_id,
+			'tmp_user_id' => $tmp_user_id
+		));
+	}
+
 	public function total_cart($user_id, $tmp_user_id){
 		$this->db->select('sum(amount * quantity) as amount');
 		$query = $this->db->get('shop_cart_tmp');
@@ -63,6 +78,7 @@ class Shop_cart_model extends CI_Model
 	public function fetch_cart($user_id, $tmp_user_id){
 		$this->db->select('shop_cart_tmp.amount, 
 			shop_cart_tmp.promo_id, 
+			shop_cart_tmp.item_id,
 			shop_cart_tmp.amount,
 			shop_cart_tmp.quantity, 
 			promo_items.promo_description,
