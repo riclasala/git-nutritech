@@ -26,8 +26,10 @@ $route['other_promo'] = 'items/other_promo';
 $route['load_items'] = 'items/load_items';
 $route['load_usdrate'] = 'items/load_usdrate';
 $route['load_packages'] = 'items/load_packages';
-$route['load_promo'] = 'items/load_promo';
-$route['load_breakdown'] = 'items/load_breakdown';
+$route['load_promos'] = 'items/load_promo';
+$route['load_breakdowns'] = 'items/load_breakdown';
+
+$route['load_distributors'] = 'login/load_distributors'; 
 
 $route['items/(:any)'] = 'items/item_list/$1'; 
 $route['default_controller'] = 'items/home';

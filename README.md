@@ -9,6 +9,8 @@ RUN http://localhost:8888/shops/load_usdrate
 
 RUN http://localhost:8888/shops/load_packages
 
-RUN http://localhost:8888/shops/load_promo
+RUN http://localhost:8888/shops/load_promos
 
-RUN http://localhost:8888/shops/load_breakdown
+RUN http://localhost:8888/shops/load_breakdowns
+
+RUN http://localhost:8888/shops/load_distributors

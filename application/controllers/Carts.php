@@ -121,7 +121,6 @@ class Carts extends CI_Controller{
 			';
 		}
 
-
 		$cart_total = '';
 		$cart_total .= '
 			<div class="row border-bottom">
