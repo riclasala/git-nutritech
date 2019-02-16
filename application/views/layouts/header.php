@@ -36,7 +36,7 @@
 		</nav>
 		<nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #e3f2fd; margin-top: 33px;">
 			<div class="container">
-				<a class="navbar-brand" href="<?php echo base_url(); ?>home">
+				<a class="navbar-brand" href="<?php echo base_url(); ?>">
 					<img src="<?php echo base_url(); ?>assets/images/logo.png" width="150" height="30" alt="NutriTECH">
 				</a>
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,12 +52,12 @@
 								Cooking
 							</a>
 							<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-								<a class="dropdown-item" href="<?php echo base_url(); ?>items/1">Cookware Specials</a>
-								<a class="dropdown-item" href="<?php echo base_url(); ?>items/4">A Touch of Class Cookware</a>
-								<a class="dropdown-item" href="<?php echo base_url(); ?>items/6">Fine Bone China Collection</a>
-								<a class="dropdown-item" href="<?php echo base_url(); ?>items/5">Fine Crystal Collection</a>
-								<a class="dropdown-item" href="<?php echo base_url(); ?>items/7">Adrian Fine Tableware w/ Inlaid Gold</a>
-								<a class="dropdown-item" href="<?php echo base_url(); ?>items/12">Professional Cutlery Collection</a>
+								<a class="dropdown-item" href="<?php echo base_url(); ?>cookware_specials">Cookware Specials</a>
+								<a class="dropdown-item" href="<?php echo base_url(); ?>touch_of_class">A Touch of Class Cookware</a>
+								<a class="dropdown-item" href="<?php echo base_url(); ?>fine_bone_china">Fine Bone China Collection</a>
+								<a class="dropdown-item" href="<?php echo base_url(); ?>cyrstal">Fine Crystal Collection</a>
+								<a class="dropdown-item" href="<?php echo base_url(); ?>tableware">Adrian Fine Tableware w/ Inlaid Gold</a>
+								<a class="dropdown-item" href="<?php echo base_url(); ?>cutlery">Professional Cutlery Collection</a>
 							</div>
 						</li>
 						<li class="nav-item dropdown">
@@ -65,12 +65,12 @@
 								Drinking
 							</a>
 							<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-								<a class="dropdown-item" href="<?php echo base_url(); ?>items/3">Professional Juice and Food Processing</a>
-								<a class="dropdown-item" href="<?php echo base_url(); ?>items/8">Water Filtration</a>
+								<a class="dropdown-item" href="<?php echo base_url(); ?>food_processing">Professional Juice and Food Processing</a>
+								<a class="dropdown-item" href="<?php echo base_url(); ?>water_filtration">Water Filtration</a>
 							</div>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="<?php echo base_url(); ?>items/14">Breathing</a>
+							<a class="nav-link" href="<?php echo base_url(); ?>air_purification">Breathing</a>
 						</li>
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -78,7 +78,7 @@
 							</a>
 							<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 								<a class="dropdown-item" href="<?php echo base_url(); ?>fastbreak">Fastbreak</a>
-								<a class="dropdown-item" href="<?php echo base_url(); ?>items/2">Kitchen Accessories</a>
+								<a class="dropdown-item" href="<?php echo base_url(); ?>kitchen_accessories">Kitchen Accessories</a>
 							</div>
 						</li>
 						<li class="nav-item">

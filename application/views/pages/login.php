@@ -13,6 +13,8 @@
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/bootstrap.min.css" />
 		<!-- Custom styles for this template -->
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/floating-labels.css" />
+		<!-- Icons -->
+		<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/fontawesome/css/all.min.css" />
 		<style>
 			.bd-placeholder-img {
 				font-size: 1.125rem;
@@ -41,7 +43,6 @@
 				<label for="inputuser">NTACH Code</label>
 				<span id="user_details"><?= $error ?></span>
 			</div>
-
 			<button class="btn btn-lg btn-primary btn-block" type="submit" name="signin">Sign in</button><br />
 			<p>Happy Day! Please enter a <code>valid transaction only</code>. Refrain from testing as it may lead to blocking your account. Thank you.
 			</p>

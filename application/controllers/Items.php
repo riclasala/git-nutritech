@@ -308,8 +308,11 @@ class Items extends CI_Controller{
 		$is_logged_in = _check_login();
 		if ($is_logged_in == false){
 			_clear_sessions();
-			redirect('login');
+
+			$data['error'] = '';
+			return $this->load->view('pages/login', $data);
 		}
+
 		$user_id = $this->session->user_id;
 		$tmp_user_id = $this->session->tmp_user_id;
 

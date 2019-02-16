@@ -1,8 +1,13 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+
 function _ip_url(){
-	$prev_ip = $_SESSION['ip_address'];
+	if(!isset($_SESSION['ip_address'])){
+		$prev_ip = '';
+	} else {
+		$prev_ip = $_SESSION['ip_address'];
+	}
 	
 	$current_ip = $_SERVER['REMOTE_ADDR'];
 	$_SESSION['ip_address'] = $current_ip;

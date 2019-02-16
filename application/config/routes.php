@@ -8,6 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $route['login'] = 'login/index';
 $route['logout'] = 'login/logout';
+
 $route['members/login'] = 'members/index';
 
 $route['carts'] = 'carts/index';
@@ -16,7 +17,6 @@ $route['checkout'] = 'carts/checkout';
 $route['membership'] = 'idcf/view';
 $route['idcf'] = 'idcf/idcf_membership/$1';
 
-$route['home'] = 'items/home';
 $route['booster'] = 'items/booster';
 $route['first_class'] = 'items/first_class';
 $route['fastbreak'] = 'items/fastbreak';
@@ -32,7 +32,39 @@ $route['load_breakdowns'] = 'items/load_breakdown';
 
 $route['load_distributors'] = 'login/load_distributors'; 
 
-$route['items/(:any)'] = 'items/item_list/$1'; 
+$route['cookware_specials'] = 'items/item_list/1'; 
+$route['touch_of_class'] = 'items/item_list/4'; 
+$route['fine_bone_china'] = 'items/item_list/6'; 
+$route['cyrstal'] = 'items/item_list/5'; 
+$route['tableware'] = 'items/item_list/7';
+$route['cutlery'] = 'items/item_list/12';
+$route['food_processing'] = 'items/item_list/3';
+$route['air_purification'] = 'items/item_list/14';
+$route['kitchen_accessories'] = 'items/item_list/2';
+$route['water_filtration'] = 'items/item_list/8';
+
+/* MEMBER PAGE */
+$route['members/carts'] = 'carts/index';
+$route['members/checkout'] = 'carts/checkout';
+
+$route['members'] = 'items/home';
+$route['members/booster'] = 'items/booster';
+$route['members/first_class'] = 'items/first_class';
+$route['members/fastbreak'] = 'items/fastbreak';
+$route['members/specials'] = 'items/specials';
+$route['members/other_promo'] = 'items/other_promo';
+
+$route['members/cookware_specials'] = 'items/item_list/1'; 
+$route['members/touch_of_class'] = 'items/item_list/4'; 
+$route['members/fine_bone_china'] = 'items/item_list/6'; 
+$route['members/cyrstal'] = 'items/item_list/5'; 
+$route['members/ableware'] = 'items/item_list/7';
+$route['members/cutlery'] = 'items/item_list/12';
+$route['members/food_processing'] = 'items/item_list/3';
+$route['members/air_purification'] = 'items/item_list/14';
+$route['members/kitchen_accessories'] = 'items/item_list/2';
+$route['members/water_filtration'] = 'items/item_list/8';
+
 $route['default_controller'] = 'items/home';
 $route['(:any)'] = 'pages/view/$1';
 $route['404_override'] = '';

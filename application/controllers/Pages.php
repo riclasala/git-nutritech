@@ -7,7 +7,7 @@ class Pages extends CI_Controller{
 		$this->load->helper('site_security');
 	}
 	
-	public function view($page = 'home'){
+	public function view($page = ''){
 		if(!file_exists(APPPATH. 'views/pages/'. $page . '.php')){
 			show_404();
 		}

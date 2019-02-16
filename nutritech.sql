@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 15, 2019 at 01:34 PM
+-- Generation Time: Feb 16, 2019 at 09:16 AM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -616,7 +616,9 @@ INSERT INTO `distributors` (`id`, `distributor_id`, `distributor_code`, `last_na
 (537, 26403, 'COLVBM192657', 'BAUYA', 'MARIETTA', 'CECILIO', 'MYETTE', '2019-02-13 16:17:27', '273 ERMIN GARCIA SILANGAN Q.C.', 28, '', 2, '1968-02-15', '', '', '09360833065', '714474513', 7, 26186, ''),
 (538, 26011, 'RYQNLC180061', 'LIU', 'CHRISTINE', 'YU', 'TIN', '2018-12-01 15:42:13', '176 B PELAEZ ST. CEBU CITY', 71, 'christineliu2009@gmail.com', 2, '1973-02-19', '254-4218', '', '09420047005', '195-798-966', 36, 25664, '09167569673'),
 (539, 26405, 'RYQNPL190116', 'PAJARES', 'LEAFIL', 'LOSTE', 'NICOLE', '2019-01-31 13:58:35', 'DIVERSION ROAD BRGY. MAGAY TANAUAN, LEYTE', 71, '', 2, '1985-09-17', '', '', '09778067972', '', 36, 25994, ''),
-(540, 19109, 'COLVBJ160806', 'BIANO', 'JOSETTE', 'CHING', 'JOSETTE', '2016-03-15 20:06:31', 'U-12F SYCAMORE TOWER, DANSALAN GARDEN, MANDALUYONG CITY', 113, '', 9, '1962-07-29', '571-4367', '833-7149', '09175323301', '106-355-000', 7, 11811, '');
+(540, 19109, 'COLVBJ160806', 'BIANO', 'JOSETTE', 'CHING', 'JOSETTE', '2016-03-15 20:06:31', 'U-12F SYCAMORE TOWER, DANSALAN GARDEN, MANDALUYONG CITY', 113, '', 9, '1962-07-29', '571-4367', '833-7149', '09175323301', '106-355-000', 7, 11811, ''),
+(541, 6861, 'A01DD60801  ', 'ASPRAH', 'DEBORAH', 'D.', 'DEBIE', '2014-10-02 16:34:49', '222 - C.M.L. QUEZON ST. PUROK 3 NEW LOWER BICUTAN, TAGUIG CITY', 30, '', 3, '1964-10-31', '09495004962', '', '09063220181', '', 26, 791, ''),
+(542, 19111, 'COLVRL160808', 'REYES', 'LARA MELISSA', 'OGAMA', 'LARA', '2016-03-15 20:15:51', 'UNIT 7F1 TOWER 1 DANSALAN GARDEN, MANDALUYONG CITY', 113, 'Laraogamareyes@gmail.com', 4, '1991-08-07', '', '', '09275166637', '', 7, 19109, '');
 
 -- --------------------------------------------------------
 
@@ -711,7 +713,7 @@ INSERT INTO `items` (`id`, `item_id`, `item_class_id`, `item_description`, `unit
 (35, 2024, 2, 'VFS - 1.4L VACUUM FRESH', '7140.00', '6375.00', '0.00', 'noimage.png', 0, 'n'),
 (36, 4019, 2, 'LED FLASHLIGHT', '2940.00', '2625.00', '500.00', 'noimage.png', 0, 'n'),
 (37, 4021, 2, 'MULTI-TOOL ULTILITY', '3920.00', '3500.00', '0.00', 'noimage.png', 0, 'n'),
-(38, 4028, 2, 'BARBECUE AND SEWING SHEARS', '4760.00', '4250.00', '1000.00', 'noimage.png', 0, 'n'),
+(38, 4028, 2, 'BARBECUE AND SEWING SCISSORS', '4760.00', '4250.00', '1000.00', 'noimage.png', 0, 'n'),
 (39, 4103, 2, 'BLEISURE LUGGAGE BAG - BLACK', '0.00', '0.00', '0.00', 'noimage.png', 0, 'n'),
 (40, 4104, 2, 'BLEISURE LUGGAGE BAG - SILVER', '0.00', '0.00', '0.00', 'noimage.png', 0, 'n'),
 (41, 936, 2, 'SUPER BREAD TOASTER ADVANCE - 110V', '21280.00', '19000.00', '0.00', 'giving/sbta.png', 1, 'n'),
@@ -947,18 +949,8 @@ CREATE TABLE `portal_accounts` (
 --
 
 INSERT INTO `portal_accounts` (`id`, `user_id`, `username`, `password`, `type`, `disabled`, `distributor_id`, `temporary`) VALUES
-(1, 5121, 'MICHELLE_JOY', 'f64e6e5d3bf4c6269b6cfac2cfdddc56', 3, 0, 5121, 0),
-(13, 26403, 'COLVBM192657', '045fecf801a772dc28343dfd61b13d60', 3, 0, 26403, 0),
-(14, 26405, 'RYQNPL190116', '23428e4f4496c3ad5e4b486d055474e3', 3, 0, 26405, 0),
-(15, 17940, 'FELY_23', '5ca713a10fe1b3a9d821b3f381bbd96d', 3, 0, 17940, 0),
-(16, 23089, 'JWRBSC170003', 'ffe5294a12a6e319b3d518f86eb0358a', 3, 0, 23089, 1),
-(23, 791, 'DELIA LIM', 'b99c198ac5291efac885572ab5da8f69', 3, 0, 791, 0),
-(26, 837, 'LITO DIONISIO OQUINE', 'bba5e8ee658b5e752bb265fc0c6fa204', 3, 0, 837, 0),
-(39, 1037, 'FLORINDA', 'e99a18c428cb38d5f260853678922e03', 3, 0, 1037, 0),
-(40, 10640, 'EDGARDO', '2dc2adb56692fb2be1e9a54d574f47de', 3, 0, 10640, 0),
-(41, 10639, 'GLENDA', '5019f367ff286940a79488394ad8b6ee', 3, 0, 10639, 0),
-(42, 19109, 'JOSETTE', 'ef7ad3e0ddab4e0f49f172fab9b31962', 3, 0, 19109, 0),
-(43, 734, 'MA. FAROLITA', 'b9e26d14046d27d63b5cdd4cfde24c56', 3, 0, 734, 0);
+(1, 17940, 'FELY_23', '5ca713a10fe1b3a9d821b3f381bbd96d', 3, 0, 17940, 0),
+(2, 19111, 'LARA_MELISSA', '6d32baee163e9d8c667fe912db7bf792', 3, 0, 19111, 0);
 
 -- --------------------------------------------------------
 
@@ -1746,6 +1738,29 @@ INSERT INTO `promo_item_breakdown` (`id`, `con_id`, `item_id`, `distribution_typ
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `shop_cart`
+--
+
+CREATE TABLE `shop_cart` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `promo_id` int(11) NOT NULL,
+  `item_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `amount` decimal(18,2) NOT NULL,
+  `date_cart` datetime NOT NULL,
+  `date_purchase` datetime NOT NULL,
+  `request_id` varchar(50) NOT NULL,
+  `promo_expire` char(1) NOT NULL DEFAULT 'N',
+  `tmp_user_id` varchar(255) NOT NULL,
+  `amount_retained` char(1) NOT NULL DEFAULT 'N',
+  `request_link` varchar(50) NOT NULL,
+  `customer_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `shop_cart_tmp`
 --
 
@@ -1863,6 +1878,12 @@ ALTER TABLE `promo_item_breakdown`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `shop_cart`
+--
+ALTER TABLE `shop_cart`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `shop_cart_tmp`
 --
 ALTER TABLE `shop_cart_tmp`
@@ -1888,7 +1909,7 @@ ALTER TABLE `currency_rates`
 -- AUTO_INCREMENT for table `distributors`
 --
 ALTER TABLE `distributors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=541;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=543;
 
 --
 -- AUTO_INCREMENT for table `distributor_levels`
@@ -1918,7 +1939,7 @@ ALTER TABLE `item_packages`
 -- AUTO_INCREMENT for table `portal_accounts`
 --
 ALTER TABLE `portal_accounts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `promo_items`
@@ -1933,10 +1954,16 @@ ALTER TABLE `promo_item_breakdown`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=642;
 
 --
+-- AUTO_INCREMENT for table `shop_cart`
+--
+ALTER TABLE `shop_cart`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
 -- AUTO_INCREMENT for table `shop_cart_tmp`
 --
 ALTER TABLE `shop_cart_tmp`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `shop_idcf`

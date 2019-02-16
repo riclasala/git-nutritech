@@ -11,7 +11,6 @@ class Login extends CI_Controller{
 
 	public function index(){
 		//initialize session variables
-		$this->session->set_userdata('ip_address', '');
 		$data['error'] = $this->session->flashdata('error');
 		
 		$this->load->view('pages/login', $data);
@@ -31,7 +30,8 @@ class Login extends CI_Controller{
 		$this->_check_portal_accounts($user);
 		$this->_check_distributors($user, $server_ip);
 
-		$this->session->set_flashdata('error', '<br /><div class="alert alert-danger" role="alert">NTAC Code does not exist.</div>');
+		$message = '<br /><div class="alert alert-danger" role="alert"><i class="fas fa-times"></i> NTAC Code Does not exist.</div>';
+		$this->session->set_flashdata('error', $message);
 		redirect('login');
 	}
 
@@ -39,12 +39,12 @@ class Login extends CI_Controller{
 		$user = $this->input->post('username');
 		$server_ip = _ip_url();
 
-		$message = '<br /><div class="alert alert-danger" role="alert">NTAC Code Does not exist.</div>';
+		$message = '<br /><div class="alert alert-danger" role="alert"><i class="fas fa-times"></i> NTAC Code Does not exist.</div>';
 		$portal = $this->portal_account_model->check_user($user);
 		if (isset($portal)){
 			$distributor_id = $portal->distributor_id;
 			$distributor = $this->distributor_model->fetch_distributor($distributor_id);
-			$message = '<br /><div class="alert alert-success" role="alert">Happy Day! <b>'. $distributor->first_name .' '. $distributor->last_name .'</b></div>';
+			$message = '<br /><div class="alert alert-success" role="alert"><i class="fas fa-check"></i> Happy Day! <b>'. $distributor->first_name .' '. $distributor->last_name .'</b></div>';
 		} else {
 			$distributor = $this->distributor_model->check_user($user);
 			if(isset($distributor)) {
@@ -54,18 +54,18 @@ class Login extends CI_Controller{
 					//create portal account
 					$this->portal_account_model->load_portal($server_ip, $distributor_id);
 				}
-				$message = '<br /><div class="alert alert-success" role="alert">Happy Day! <b>'. $distributor->first_name .' '. $distributor->last_name .'</b></div>';
+				$message = '<br /><div class="alert alert-success" role="alert"><i class="fas fa-check"></i> Happy Day! <b>'. $distributor->first_name .' '. $distributor->last_name .'</b></div>';
 			} else {
 				$this->distributor_model->load_distributor_by_code($server_ip, $user);
 				//check again after loading of data
 				if (isset($portal)){
 					$distributor_id = $portal->distributor_id;
 					$distributor = $this->distributor_model->fetch_distributor($distributor_id);
-					$message = '<br /><div class="alert alert-success" role="alert">Happy Day! <b>'. $distributor->first_name .' '. $distributor->last_name .'</b></div>';
+					$message = '<br /><div class="alert alert-success" role="alert"><i class="fas fa-check"></i> Happy Day! <b>'. $distributor->first_name .' '. $distributor->last_name .'</b></div>';
 				} else {
 					$distributor = $this->distributor_model->check_user($user);
 					if(isset($distributor)) {
-						$message = '<br /><div class="alert alert-success" role="alert">Happy Day! <b>'. $distributor->first_name .' '. $distributor->last_name .'</b></div>';
+						$message = '<br /><div class="alert alert-success" role="alert"><i class="fas fa-check"></i> Happy Day! <b>'. $distributor->first_name .' '. $distributor->last_name .'</b></div>';
 					}
 				}
 			}
@@ -98,7 +98,7 @@ class Login extends CI_Controller{
 				'page_type' => 'customer'
 			);
 			$this->session->set_userdata($array);
-			redirect('home');
+			redirect();
 		}
 	}
 
@@ -119,7 +119,7 @@ class Login extends CI_Controller{
 				'page_type' => 'customer'
 			);
 			$this->session->set_userdata($array);
-			redirect('home');
+			redirect();
 		}
 	}
 }
