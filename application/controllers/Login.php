@@ -10,6 +10,9 @@ class Login extends CI_Controller{
 	}
 
 	public function index(){
+		//initialize session variables
+		$this->session->set_userdata('ip_address', '');
+		
 		$this->load->view('pages/login');
 	}
 
@@ -76,6 +79,17 @@ class Login extends CI_Controller{
 		echo $message;
 	}
 
+	public function logout(){
+		$array_items = array('tmp_user_id', 
+			'server_ip',
+			'ip_address', 
+			'user_id', 
+			'page_type');
+
+		$this->session->unset_userdata($array_items);
+		redirect('login');
+	}
+
 	public function load_distributors(){
 		$server_ip = _ip_url();
 		$this->distributor_model->load_active_distributors($server_ip);
@@ -92,7 +106,8 @@ class Login extends CI_Controller{
 		if(isset($portal)) {
 			$array = array('tmp_user_id' => session_id() . _generate_random_string(10) . $portal->user_id,
 				'ip_address' => $_SERVER['REMOTE_ADDR'],
-				'user_id' => $portal->user_id
+				'user_id' => $portal->user_id,
+				'page_type' => 'customer'
 			);
 			$this->session->set_userdata($array);
 			redirect('home');
@@ -112,7 +127,8 @@ class Login extends CI_Controller{
 			
 			$array = array('tmp_user_id' => session_id() . _generate_random_string(10) . $portal->user_id,
 				'ip_address' => $_SERVER['REMOTE_ADDR'],
-				'user_id' => $portal->user_id
+				'user_id' => $portal->user_id,
+				'page_type' => 'customer'
 			);
 			$this->session->set_userdata($array);
 			redirect('home');

@@ -3,7 +3,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 function _ip_url(){
 	$prev_ip = $_SESSION['ip_address'];
+	
 	$current_ip = $_SERVER['REMOTE_ADDR'];
+	$_SESSION['ip_address'] = $current_ip;
 
 	if($prev_ip == $current_ip){
 		$server_ip = $_SESSION['server_ip'];

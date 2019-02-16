@@ -7,6 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | ----------------------------------------------------------
 */
 $route['login'] = 'login/index';
+$route['logout'] = 'login/logout';
 $route['members/login'] = 'members/index';
 
 $route['carts'] = 'carts/index';

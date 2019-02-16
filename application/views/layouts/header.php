@@ -30,7 +30,7 @@
 					<a href="<?php echo base_url(); ?>checkout" class="text-white" style="text-decoration: none;"><i class="fas fa-check"></i> Check Out </a>
 				</small>
 				<small class="pull-right">
-					<a href="<?php echo base_url(); ?>login" class="text-white" style="text-decoration: none;"><i class="fas fa-power-off"></i> Sign Out</a>
+					<a href="<?php echo base_url(); ?>logout" class="text-white" style="text-decoration: none;"><i class="fas fa-power-off"></i> Sign Out</a>
 				</small>
 			</div>
 		</nav>

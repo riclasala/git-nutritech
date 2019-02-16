@@ -233,10 +233,6 @@ class Items extends CI_Controller{
 	public function home()
 	{	
 		$retained = "N";
-		echo $this->session->server_ip . '<br>';
-		echo $this->session->user_id . '<br>';
-		echo $this->session->ip_address . '<br>';
-		echo $this->session->tmp_user_id . '<br>';
 
 		$promo_array = array();
 		$promos = $this->promo_item_model->fetch_promos_other();
