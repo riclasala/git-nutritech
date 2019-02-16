@@ -11,6 +11,11 @@ class Portal_account_model extends CI_Model
 		return $query->row();
 	}
 
+	public function fetch_account_by_user_id($user_id){
+		$query = $this->db->get_where('portal_accounts', array('user_id' => $user_id));
+		return $query->row();
+	}
+
 	public function load_portal($server_ip, $distributor_id){
 		$url = 'http://'.$server_ip.'/nutritech_api/portal_account_dist/'.$distributor_id;
 		$params = array('X-API-KEY' => '12345');

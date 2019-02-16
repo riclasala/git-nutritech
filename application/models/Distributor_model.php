@@ -8,6 +8,21 @@ class Distributor_model extends CI_Model
 		return $result;
 	}
 
+	public function fetch_distributor_by_user_id($user_id){
+		$this->load->model('portal_account_model');
+		$portal = $this->portal_account_model->fetch_account_by_user_id($user_id);
+
+		return $this->fetch_distributor($portal->distributor_id);
+	}
+
+	public function fetch_distributor_rate($distributor_id){
+		$distributor = $this->fetch_distributor($distributor_id);
+
+		$this->load->model('distributor_level_model');
+		$distributor_level = $this->distributor_level_model->fetch_rate($distributor->distributor_level_id);
+		return $distributor_level->pse;
+	}
+
 	public function load_distributor_by_code($server_ip, $user)
 	{
 		$url = 'http://'.$server_ip.'/nutritech_api/distributor_by_user';

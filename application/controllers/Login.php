@@ -12,16 +12,13 @@ class Login extends CI_Controller{
 	public function index(){
 		//initialize session variables
 		$this->session->set_userdata('ip_address', '');
+		$data['error'] = $this->session->flashdata('error');
 		
-		$this->load->view('pages/login');
+		$this->load->view('pages/login', $data);
 	}
 
 	public function signin(){
 		$user = $this->input->post('username');
-
-		//set the server ip first before other sessions --IMPORTANT-- particularly session (ip_address)
-		//this is to determine whether you are accessing on the same network or outside it.
-		//it is need for all the api links
 		$server_ip = _ip_url();
 
 		$this->_check_portal_accounts($user);
@@ -34,23 +31,20 @@ class Login extends CI_Controller{
 		$this->_check_portal_accounts($user);
 		$this->_check_distributors($user, $server_ip);
 
-		echo 'NTAC CODE DOES NOT EXIST';
+		$this->session->set_flashdata('error', '<br /><div class="alert alert-danger" role="alert">NTAC Code does not exist.</div>');
+		redirect('login');
 	}
 
 	public function check_user(){
 		$user = $this->input->post('username');
-
-		//set the server ip first before other sessions --IMPORTANT-- particularly session (ip_address)
-		//this is to determine whether you are accessing on the same network or outside it.
-		//it is need for all the api links
 		$server_ip = _ip_url();
 
-		$message = "Username does not exist!";
+		$message = '<br /><div class="alert alert-danger" role="alert">NTAC Code Does not exist.</div>';
 		$portal = $this->portal_account_model->check_user($user);
 		if (isset($portal)){
 			$distributor_id = $portal->distributor_id;
 			$distributor = $this->distributor_model->fetch_distributor($distributor_id);
-			$message = "Happy Day! ". $distributor->first_name ." ". $distributor->last_name;
+			$message = '<br /><div class="alert alert-success" role="alert">Happy Day! <b>'. $distributor->first_name .' '. $distributor->last_name .'</b></div>';
 		} else {
 			$distributor = $this->distributor_model->check_user($user);
 			if(isset($distributor)) {
@@ -60,18 +54,18 @@ class Login extends CI_Controller{
 					//create portal account
 					$this->portal_account_model->load_portal($server_ip, $distributor_id);
 				}
-				$message = "Happy Day! ". $distributor->first_name ." ". $distributor->last_name;
+				$message = '<br /><div class="alert alert-success" role="alert">Happy Day! <b>'. $distributor->first_name .' '. $distributor->last_name .'</b></div>';
 			} else {
 				$this->distributor_model->load_distributor_by_code($server_ip, $user);
 				//check again after loading of data
 				if (isset($portal)){
 					$distributor_id = $portal->distributor_id;
 					$distributor = $this->distributor_model->fetch_distributor($distributor_id);
-					$message = "Happy Day! ". $distributor->first_name ." ". $distributor->last_name;
+					$message = '<br /><div class="alert alert-success" role="alert">Happy Day! <b>'. $distributor->first_name .' '. $distributor->last_name .'</b></div>';
 				} else {
 					$distributor = $this->distributor_model->check_user($user);
 					if(isset($distributor)) {
-						$message = "Happy Day! ". $distributor->first_name ." ". $distributor->last_name;
+						$message = '<br /><div class="alert alert-success" role="alert">Happy Day! <b>'. $distributor->first_name .' '. $distributor->last_name .'</b></div>';
 					}
 				}
 			}
@@ -80,13 +74,7 @@ class Login extends CI_Controller{
 	}
 
 	public function logout(){
-		$array_items = array('tmp_user_id', 
-			'server_ip',
-			'ip_address', 
-			'user_id', 
-			'page_type');
-
-		$this->session->unset_userdata($array_items);
+		_clear_sessions();
 		redirect('login');
 	}
 

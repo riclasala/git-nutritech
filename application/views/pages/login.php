@@ -39,7 +39,7 @@
 			<div class="form-label-group">
 				<input type="username" id="inputuser" name="username" class="form-control" placeholder="NTACH Code" required autofocus>
 				<label for="inputuser">NTACH Code</label>
-				<span id="user_details">&nbsp;</span>
+				<span id="user_details"><?= $error ?></span>
 			</div>
 
 			<button class="btn btn-lg btn-primary btn-block" type="submit" name="signin">Sign in</button><br />

@@ -3,13 +3,21 @@ class Carts extends CI_Controller{
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('shop_cart_model');
+		$this->load->helper('site_settings');
+		$this->load->helper('site_security');
 	}
 
 	public function index(){
+		$is_logged_in = _check_login();
+		if ($is_logged_in == false){
+			_clear_sessions();
+			redirect('login');
+		}
+
 		$data['title'] = "My Cart";
 
-		$user_id = 0; //temporary values without login
-		$tmp_user_id = ""; //temporary values without login
+		$user_id = $this->session->user_id;
+		$tmp_user_id = $this->session->tmp_user_id;
 
 		$data['total'] = $this->shop_cart_model->total_cart($user_id, $tmp_user_id);
 		$data['cart'] = $this->shop_cart_model->fetch_cart($user_id, $tmp_user_id);
@@ -20,16 +28,32 @@ class Carts extends CI_Controller{
 	}
 
 	public function checkout(){
+		$is_logged_in = _check_login();
+		if ($is_logged_in == false){
+			_clear_sessions();
+			redirect('login');
+		}
+
 		$this->load->view('layouts/header');
 		$this->load->view('carts/checkout');
 		$this->load->view('layouts/footer');
 	}
 
 	public function create(){
-		$user_id = 0;
-		$tmp_user_id = "";
-		$retained = "N";
+		$is_logged_in = _check_login();
+		if ($is_logged_in == false){
+			_clear_sessions();
+			redirect('login');
+		}
 
+		$user_id = $this->session->user_id;
+		$tmp_user_id = $this->session->tmp_user_id;
+
+		$retained = "N";
+		if($this->session->page_type == "member") {
+			$retained = "Y";
+		}
+		
 		$item_id = $this->input->post('item_id');
 		$promo_id = $this->input->post('promo_id');
 
@@ -47,8 +71,14 @@ class Carts extends CI_Controller{
 	}
 
 	public function destroy(){
-		$user_id = 0;
-		$tmp_user_id = "";
+		$is_logged_in = _check_login();
+		if ($is_logged_in == false){
+			_clear_sessions();
+			redirect('login');
+		}
+
+		$user_id = $this->session->user_id;
+		$tmp_user_id = $this->session->tmp_user_id;
 
 		$item_id = $this->input->post('item_id');
 		$promo_id = $this->input->post('promo_id');
@@ -58,8 +88,14 @@ class Carts extends CI_Controller{
 	}
 
 	public function update(){
-		$user_id = 0;
-		$tmp_user_id = "";
+		$is_logged_in = _check_login();
+		if ($is_logged_in == false){
+			_clear_sessions();
+			redirect('login');
+		}
+
+		$user_id = $this->session->user_id;
+		$tmp_user_id = $this->session->tmp_user_id;
 
 		$item_id = $this->input->post('item_id');
 		$promo_id = $this->input->post('promo_id');

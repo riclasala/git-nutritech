@@ -11,6 +11,33 @@ class Shop_cart_model extends CI_Model
 		return $query->num_rows();
 	}
 
+	public function remove_expired_promo($user_id, $tmp_user_id){
+		$this->db->delete('shop_cart_tmp', array('user_id' => $user_id,
+			'tmp_user_id' => $tmp_user_id,
+			'promo_expire' => 'Y'
+		));
+	}
+
+	public function update_expired_promos(){
+		$this->db->select('shop_cart_tmp.*, promo_items.promo_period_from, promo_items.promo_period_to');
+		$this->db->from('shop_cart_tmp');
+		$this->db->join('promo_items', 'promo_items.promo_id = shop_cart_tmp.promo_id', 'INNER');
+		$query = $this->db->where(array('promo_expire' => 'N',
+			'promo_period_to <' => date('Y-m-d')
+		))->get();
+		$results = $query->result_array();
+		foreach ($results as $key) {
+			$this->where(array('id' => $key['id']));
+			$this->db->update('shop_cart_tmp', array('promo_expire' => 'Y'));
+		}
+	}
+
+	public function remove_previous_cart($user_id, $tmp_user_id){
+		$this->db->delete('shop_cart_tmp', array('user_id' => $user_id,
+			'tmp_user_id <>' => $tmp_user_id,
+		));
+	}
+
 	public function update_cart($user_id, $tmp_user_id, $item_id, $promo_id, $qty = 0){
 		$query =$this->db->get_where('shop_cart_tmp', array(
 			'user_id' => $user_id,

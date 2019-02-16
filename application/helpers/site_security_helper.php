@@ -9,3 +9,29 @@ function _generate_random_string($length){
 	}
 	return $randomstring;
 }
+
+function _check_login($type = ''){
+	if(!isset($_SESSION['user_id'])){
+		return false;
+	}
+
+	if(!isset($_SESSION['tmp_user_id'])){
+		return false;
+	}
+
+	if(!isset($_SESSION['page_type'])){
+		return false;
+	}
+
+	if ($type != ''){
+		$page_type = $_SESSION['page_type'];
+		if ($type != $page_type) {
+			return false;
+		}
+	}
+	return true;
+}
+
+function _clear_sessions(){
+	session_destroy();
+}
