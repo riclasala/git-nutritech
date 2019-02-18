@@ -167,7 +167,7 @@ class Items extends CI_Controller{
 	public function first_class()
 	{
 		$this->_auth_login();
-		
+
 		$data['title'] = "First Class Collection";
 		$retained = "N";
 		if($this->session->page_type == "member") {
@@ -458,7 +458,7 @@ class Items extends CI_Controller{
 			_clear_sessions();
 			$this->load->helper('url');
 			$page = $this->uri->segment(1);
-			if($page == 'members/'){
+			if($page == 'members'){
 				redirect('members/login');
 			} else {
 				redirect('login');

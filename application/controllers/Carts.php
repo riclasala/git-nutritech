@@ -187,7 +187,7 @@ class Carts extends CI_Controller{
 			_clear_sessions();
 			$this->load->helper('url');
 			$page = $this->uri->segment(1);
-			if($page == 'members/'){
+			if($page == 'members'){
 				redirect('members/login');
 			} else {
 				redirect('login');
