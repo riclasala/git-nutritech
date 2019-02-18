@@ -57,11 +57,13 @@
 		});
 
 		function checkUser(username){
+			page_type = 'customer';
 			$.ajax({
 				url: "<?php echo base_url(); ?>login/check_user",
 				type: 'POST',
 				data: {
 					username: username,
+					page_type: page_type
 				},
 				success: function(data, status){
 					$('#user_details').html(data);

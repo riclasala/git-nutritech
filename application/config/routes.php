@@ -10,6 +10,7 @@ $route['login'] = 'login/index';
 $route['logout'] = 'login/logout';
 
 $route['members/login'] = 'members/index';
+$route['members/logout'] = 'members/logout';
 
 $route['carts'] = 'carts/index';
 $route['checkout'] = 'carts/checkout';
@@ -58,7 +59,7 @@ $route['members/cookware_specials'] = 'items/item_list/1';
 $route['members/touch_of_class'] = 'items/item_list/4'; 
 $route['members/fine_bone_china'] = 'items/item_list/6'; 
 $route['members/cyrstal'] = 'items/item_list/5'; 
-$route['members/ableware'] = 'items/item_list/7';
+$route['members/tableware'] = 'items/item_list/7';
 $route['members/cutlery'] = 'items/item_list/12';
 $route['members/food_processing'] = 'items/item_list/3';
 $route['members/air_purification'] = 'items/item_list/14';

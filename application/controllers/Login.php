@@ -10,7 +10,6 @@ class Login extends CI_Controller{
 	}
 
 	public function index(){
-		//initialize session variables
 		$data['error'] = $this->session->flashdata('error');
 		
 		$this->load->view('pages/login', $data);
@@ -37,6 +36,13 @@ class Login extends CI_Controller{
 
 	public function check_user(){
 		$user = $this->input->post('username');
+		$page_type = $this->input->post('page_type');
+
+		$append_greetings = "";
+		if ($page_type == "customer"){
+			$append_greetings .= ' <b>Customer</b> of';
+		}
+
 		$server_ip = _ip_url();
 
 		$message = '<br /><div class="alert alert-danger" role="alert"><i class="fas fa-times"></i> NTAC Code Does not exist.</div>';
@@ -44,7 +50,7 @@ class Login extends CI_Controller{
 		if (isset($portal)){
 			$distributor_id = $portal->distributor_id;
 			$distributor = $this->distributor_model->fetch_distributor($distributor_id);
-			$message = '<br /><div class="alert alert-success" role="alert"><i class="fas fa-check"></i> Happy Day! <b>'. $distributor->first_name .' '. $distributor->last_name .'</b></div>';
+			$message = '<br /><div class="alert alert-success" role="alert"><i class="fas fa-check"></i> Happy Day!'. $append_greetings .' <b>'. $distributor->first_name .' '. $distributor->last_name .'</b></div>';
 		} else {
 			$distributor = $this->distributor_model->check_user($user);
 			if(isset($distributor)) {
@@ -54,18 +60,18 @@ class Login extends CI_Controller{
 					//create portal account
 					$this->portal_account_model->load_portal($server_ip, $distributor_id);
 				}
-				$message = '<br /><div class="alert alert-success" role="alert"><i class="fas fa-check"></i> Happy Day! <b>'. $distributor->first_name .' '. $distributor->last_name .'</b></div>';
+				$message = '<br /><div class="alert alert-success" role="alert"><i class="fas fa-check"></i> Happy Day!'. $append_greetings .' <b>'. $distributor->first_name .' '. $distributor->last_name .'</b></div>';
 			} else {
 				$this->distributor_model->load_distributor_by_code($server_ip, $user);
 				//check again after loading of data
 				if (isset($portal)){
 					$distributor_id = $portal->distributor_id;
 					$distributor = $this->distributor_model->fetch_distributor($distributor_id);
-					$message = '<br /><div class="alert alert-success" role="alert"><i class="fas fa-check"></i> Happy Day! <b>'. $distributor->first_name .' '. $distributor->last_name .'</b></div>';
+					$message = '<br /><div class="alert alert-success" role="alert"><i class="fas fa-check"></i> Happy Day!'. $append_greetings .' <b>'. $distributor->first_name .' '. $distributor->last_name .'</b></div>';
 				} else {
 					$distributor = $this->distributor_model->check_user($user);
 					if(isset($distributor)) {
-						$message = '<br /><div class="alert alert-success" role="alert"><i class="fas fa-check"></i> Happy Day! <b>'. $distributor->first_name .' '. $distributor->last_name .'</b></div>';
+						$message = '<br /><div class="alert alert-success" role="alert"><i class="fas fa-check"></i> Happy Day!'. $append_greetings .' <b>'. $distributor->first_name .' '. $distributor->last_name .'</b></div>';
 					}
 				}
 			}

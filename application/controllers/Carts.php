@@ -8,11 +8,7 @@ class Carts extends CI_Controller{
 	}
 
 	public function index(){
-		$is_logged_in = _check_login();
-		if ($is_logged_in == false){
-			_clear_sessions();
-			redirect('login');
-		}
+		$this->_auth_login();
 
 		$data['title'] = "My Cart";
 
@@ -22,29 +18,29 @@ class Carts extends CI_Controller{
 		$data['total'] = $this->shop_cart_model->total_cart($user_id, $tmp_user_id);
 		$data['cart'] = $this->shop_cart_model->fetch_cart($user_id, $tmp_user_id);
 
-		$this->load->view('layouts/header');
+		if($this->session->page_type == "member") {
+			$this->load->view('layouts/member_header');
+		} else {
+			$this->load->view('layouts/header');
+		}
 		$this->load->view('carts/index', $data);
 		$this->load->view('layouts/footer');
 	}
 
 	public function checkout(){
-		$is_logged_in = _check_login();
-		if ($is_logged_in == false){
-			_clear_sessions();
-			redirect('login');
-		}
+		$this->_auth_login();
 
-		$this->load->view('layouts/header');
+		if($this->session->page_type == "member") {
+			$this->load->view('layouts/member_header');
+		} else {
+			$this->load->view('layouts/header');
+		}
 		$this->load->view('carts/checkout');
 		$this->load->view('layouts/footer');
 	}
 
 	public function create(){
-		$is_logged_in = _check_login();
-		if ($is_logged_in == false){
-			_clear_sessions();
-			redirect('login');
-		}
+		$this->_auth_login();
 
 		$user_id = $this->session->user_id;
 		$tmp_user_id = $this->session->tmp_user_id;
@@ -66,16 +62,17 @@ class Carts extends CI_Controller{
 
 		$buy = $this->input->post('Buy');
 		if(isset($buy)){
-			redirect('checkout');
+			$oage_type = $this->session->page_type;
+			if ($oage_type == 'member'){
+				redirect('members/checkout');
+			} else {
+				redirect('checkout');
+			}
 		}
 	}
 
 	public function destroy(){
-		$is_logged_in = _check_login();
-		if ($is_logged_in == false){
-			_clear_sessions();
-			redirect('login');
-		}
+		$this->_auth_login();
 
 		$user_id = $this->session->user_id;
 		$tmp_user_id = $this->session->tmp_user_id;
@@ -88,11 +85,7 @@ class Carts extends CI_Controller{
 	}
 
 	public function update(){
-		$is_logged_in = _check_login();
-		if ($is_logged_in == false){
-			_clear_sessions();
-			redirect('login');
-		}
+		$this->_auth_login();
 
 		$user_id = $this->session->user_id;
 		$tmp_user_id = $this->session->tmp_user_id;
@@ -186,5 +179,19 @@ class Carts extends CI_Controller{
 			'cart_items' => $cart_items,
 			'cart_total' => $cart_total
 		));
+	}
+
+	private function _auth_login(){
+		$is_logged_in = _check_login();
+		if ($is_logged_in == false){
+			_clear_sessions();
+			$this->load->helper('url');
+			$page = $this->uri->segment(1);
+			if($page == 'members/'){
+				redirect('members/login');
+			} else {
+				redirect('login');
+			}
+		}
 	}
 }

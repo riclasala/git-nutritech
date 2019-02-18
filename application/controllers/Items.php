@@ -13,11 +13,8 @@ class Items extends CI_Controller{
 	}
 
 	public function item_list($class_id){
-		$is_logged_in = _check_login();
-		if ($is_logged_in == false){
-			_clear_sessions();
-			redirect('login');
-		}
+		$this->_auth_login();
+
 		$this->load->model('item_class_model');
 
 		$data['title'] = $this->item_class_model->fetch_class($class_id);
@@ -70,18 +67,19 @@ class Items extends CI_Controller{
 		$usd_rate = $this->currency_rate_model->fetch_usdrate();
 		$data['usd_rate'] = round($usd_rate, 2);
 
-		$this->load->view('layouts/header');
+		if($this->session->page_type == "member") {
+			$this->load->view('layouts/member_header');
+		} else {
+			$this->load->view('layouts/header');
+		}
 		$this->load->view('items/item_list', $data);
 		$this->load->view('layouts/footer');
 	}
 
 	public function booster()
 	{
-		$is_logged_in = _check_login();
-		if ($is_logged_in == false){
-			_clear_sessions();
-			redirect('login');
-		}
+		$this->_auth_login();
+
 		$data['title'] = "Booster Promo";
 		$retained = "N";
 		if($this->session->page_type == "member") {
@@ -113,18 +111,19 @@ class Items extends CI_Controller{
 		$usd_rate = $this->currency_rate_model->fetch_usdrate();
 		$data['usd_rate'] = round($usd_rate, 2);
 
-		$this->load->view('layouts/header');
+		if($this->session->page_type == "member") {
+			$this->load->view('layouts/member_header');
+		} else {
+			$this->load->view('layouts/header');
+		}
 		$this->load->view('items/booster', $data);
 		$this->load->view('layouts/footer');
 	}
 
 	public function specials()
 	{
-		$is_logged_in = _check_login();
-		if ($is_logged_in == false){
-			_clear_sessions();
-			redirect('login');
-		}
+		$this->_auth_login();
+
 		$data['title'] = "Specials Promo";
 		$retained = "N";
 		if($this->session->page_type == "member") {
@@ -156,23 +155,25 @@ class Items extends CI_Controller{
 		$usd_rate = $this->currency_rate_model->fetch_usdrate();
 		$data['usd_rate'] = round($usd_rate, 2);
 
-		$this->load->view('layouts/header');
+		if($this->session->page_type == "member") {
+			$this->load->view('layouts/member_header');
+		} else {
+			$this->load->view('layouts/header');
+		}
 		$this->load->view('items/specials', $data);
 		$this->load->view('layouts/footer');
 	}
 
 	public function first_class()
 	{
-		$is_logged_in = _check_login();
-		if ($is_logged_in == false){
-			_clear_sessions();
-			redirect('login');
-		}
+		$this->_auth_login();
+		
 		$data['title'] = "First Class Collection";
 		$retained = "N";
 		if($this->session->page_type == "member") {
 			$retained = "Y";
 		}
+
 		$user_id = $this->session->user_id;
 		$distributor = $this->distributor_model->fetch_distributor_by_user_id($user_id);
 		$distributor_id = $distributor->distributor_id;
@@ -212,18 +213,19 @@ class Items extends CI_Controller{
 		$usd_rate = $this->currency_rate_model->fetch_usdrate();
 		$data['usd_rate'] = round($usd_rate, 2);
 
-		$this->load->view('layouts/header');
+		if($this->session->page_type == "member") {
+			$this->load->view('layouts/member_header');
+		} else {
+			$this->load->view('layouts/header');
+		}
 		$this->load->view('items/first_class', $data);
 		$this->load->view('layouts/footer');
 	}
 
 	public function fastbreak()
 	{
-		$is_logged_in = _check_login();
-		if ($is_logged_in == false){
-			_clear_sessions();
-			redirect('login');
-		}
+		$this->_auth_login();
+
 		$data['title'] = "Fastbreak Promo";
 		$retained = "N";
 		if($this->session->page_type == "member") {
@@ -255,18 +257,19 @@ class Items extends CI_Controller{
 		$usd_rate = $this->currency_rate_model->fetch_usdrate();
 		$data['usd_rate'] = round($usd_rate, 2);
 
-		$this->load->view('layouts/header');
+		if($this->session->page_type == "member") {
+			$this->load->view('layouts/member_header');
+		} else {
+			$this->load->view('layouts/header');
+		}
 		$this->load->view('items/fastbreak', $data);
 		$this->load->view('layouts/footer');
 	}
 
 	public function other_promo()
 	{
-		$is_logged_in = _check_login();
-		if ($is_logged_in == false){
-			_clear_sessions();
-			redirect('login');
-		}
+		$this->_auth_login();
+
 		$data['title'] = "Other Promos";
 		$retained = "N";
 		if($this->session->page_type == "member") {
@@ -298,19 +301,29 @@ class Items extends CI_Controller{
 		$usd_rate = $this->currency_rate_model->fetch_usdrate();
 		$data['usd_rate'] = round($usd_rate, 2);
 
-		$this->load->view('layouts/header');
+		if($this->session->page_type == "member") {
+			$this->load->view('layouts/member_header');
+		} else {
+			$this->load->view('layouts/header');
+		}
 		$this->load->view('items/other_promo', $data);
 		$this->load->view('layouts/footer');
 	}
 
 	public function home()
-	{	
+	{
 		$is_logged_in = _check_login();
 		if ($is_logged_in == false){
 			_clear_sessions();
 
 			$data['error'] = '';
-			return $this->load->view('pages/login', $data);
+			$this->load->helper('url');
+			$page = $this->uri->segment(1);
+			if($page == 'members'){
+				return $this->load->view('members/login', $data);
+			} else {
+				return $this->load->view('pages/login', $data);
+			}
 		}
 
 		$user_id = $this->session->user_id;
@@ -369,7 +382,11 @@ class Items extends CI_Controller{
 		$usd_rate = $this->currency_rate_model->fetch_usdrate();
 		$data['usd_rate'] = round($usd_rate, 2);
 
-		$this->load->view('layouts/header');
+		if($this->session->page_type == "member") {
+			$this->load->view('layouts/member_header');
+		} else {
+			$this->load->view('layouts/header');
+		}
 		$this->load->view('items/home', $data);
 		$this->load->view('layouts/footer');
 	}
@@ -433,5 +450,19 @@ class Items extends CI_Controller{
 		$this->load->view('layouts/header');
 		$this->load->view('pages/loader', $data);
 		$this->load->view('layouts/footer');
+	}
+
+	private function _auth_login(){
+		$is_logged_in = _check_login();
+		if ($is_logged_in == false){
+			_clear_sessions();
+			$this->load->helper('url');
+			$page = $this->uri->segment(1);
+			if($page == 'members/'){
+				redirect('members/login');
+			} else {
+				redirect('login');
+			}
+		}
 	}
 }

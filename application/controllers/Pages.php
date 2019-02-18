@@ -20,7 +20,11 @@ class Pages extends CI_Controller{
 
 		$data['title'] = ucfirst($page);
 		
-		$this->load->view('layouts/header');
+		if($this->session->page_type == "member") {
+			$this->load->view('layouts/member_header');
+		} else {
+			$this->load->view('layouts/header');
+		}
 		$this->load->view('pages/' .$page, $data);
 		$this->load->view('layouts/footer');
 	}

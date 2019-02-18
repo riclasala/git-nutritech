@@ -13,6 +13,8 @@
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/bootstrap.min.css" />
 		<!-- Custom styles for this template -->
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/floating-labels.css" />
+		<!-- Icons -->
+		<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/fontawesome/css/all.min.css" />
 		<style>
 			.bd-placeholder-img {
 				font-size: 1.125rem;
@@ -25,33 +27,54 @@
 				}
 			}
 		</style>
+		<!-- Load first jquery to do custom js-->
+		<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery-3.3.1.min.js"></script>
 	</head>
 	<body>
-		<form class="form-signin">
+		<?php echo form_open('members/signin', 'class="form-signin"'); ?>
 			<div class="text-center mb-4">
 				<img class="mb-4" src="<?php echo base_url(); ?>assets/images/big-logo.png" width="360" alt="NutriTECH">
-				<h1 class="h3 mb-3 font-weight-normal">Please Sign In</h1>
+				<h1 class="h3 mb-3 font-weight-normal">Shop Online</h1>
+				<p class="mt-5 mb-3 text-muted text-center">Please Sign In</p>
+			</div>
+			<div class="form-label-group">
+				<input type="username" id="inputuser" name="username" class="form-control" placeholder="NTACH Code" required autofocus>
+				<label for="inputuser">NTACH Code</label>
+				<span id="user_details"><?= $error ?></span>
 			</div>
 
 			<div class="form-label-group">
-				<input type="email" id="inputEmail" class="form-control" placeholder="NTACH Code" required autofocus>
-				<label for="inputEmail">NTACH Code</label>
+				<input type="password" id="inputpassword" name="password" class="form-control" placeholder="Password" required>
+				<label for="inputpassword">Password</label>
 			</div>
-
-			<div class="form-label-group">
-				<input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-				<label for="inputPassword">Password</label>
-			</div>
-
-			<div class="checkbox mb-3">
-				<label>
-					<input type="checkbox" value="remember-me"> Remember me
-				</label>
-			</div>
-			<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button><br />
+			
+			<button class="btn btn-lg btn-primary btn-block" type="submit" name="signin">Sign in</button><br />
 			<p>Happy Day! Please enter a <code>valid transaction only</code>. Refrain from testing as it may lead to blocking your account. Thank you.
 			</p>
 			<p class="mt-5 mb-3 text-muted text-center">Copyright &copy; NutriTECH Alliance Corporation 2019</p>
 		</form>
 	</body>
+
+	<script type="text/javascript">
+		$('#inputuser').change( function(){
+			var username = $('#inputuser').val();
+			checkUser(username);
+		});
+
+		function checkUser(username){
+			page_type = 'member';
+
+			$.ajax({
+				url: "<?php echo base_url(); ?>login/check_user",
+				type: 'POST',
+				data: {
+					username: username,
+					page_type: page_type
+				},
+				success: function(data, status){
+					$('#user_details').html(data);
+				}
+			});
+		}
+	</script>
 </html>
