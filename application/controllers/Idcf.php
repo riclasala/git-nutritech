@@ -16,12 +16,17 @@
 			$this->load->view('layouts/footer');
 		}
 
-		public function idcf_membership($id){
+		public function idcf_membership(){
 			//$server_ip = _ip_url();
 			//$distributor_id = 23089; //this should be session
 			//$data["member"] = $this->online_idcf_model->fetch_new_distributor_summary($server_ip, $distributor_id);
-			$data['member'] =  $this->online_idcf_model->fetch_new_distributor_summary($id);
-			$this->load->view('idcf/idcf_success',$data);
+			$id = $this->session->flashdata('new_idcf');
+			if ($id != null or $id !=''){
+				$data['member'] =  $this->online_idcf_model->fetch_new_distributor_summary($id);
+				$this->load->view('idcf/idcf_success',$data);
+			}else{
+				redirect('home');
+			}
 		}
 
 		public function save_idcf()
@@ -39,9 +44,9 @@
 				//$data['success'] = true;
 				
 				$new_idcf_id = $this->online_idcf_model->insert_idcf($this->idcf_details($data));
-				$this->idcf_membership($new_idcf_id);
-				
-				//redirect('idcf');
+				//$this->idcf_membership($new_idcf_id);
+				$this->session->set_flashdata('new_idcf', $new_idcf_id);
+				redirect('idcf');
 			}
 			else {
 				/*foreach ($_POST as $key => $value) {
@@ -81,7 +86,7 @@
 			$img_name = "";
 			$img_type = "";
 			if($img != null or $img != ''){
-				$img_name = "distributors/" . $img["orig_name"];
+				$img_name = "assets/images/idcf_member/distributors/" . $img["orig_name"];
 				$img_type = end(explode(".", $img_name));
 			}
 			return array (
@@ -122,8 +127,8 @@
 			if($_FILES['image_file']['name']!='' or $_FILES['image_file']['name'] != null){
 				$config = array(
 					'file_name' => date('Ymd') . '_' . strtolower($last_name) . strtolower($first_name),
-					'upload_path' => "uploads/distributors/",
-					'upload_url' => base_url() . "uploads/distributors/",
+					'upload_path' => "assets/images/idcf_member/distributors/",
+					'upload_url' => base_url() . "assets/images/idcf_member/distributors/",
 					'allowed_types' => "gif|jpg|png|jpeg"
 				);
 				$this->load->library('upload', $config);

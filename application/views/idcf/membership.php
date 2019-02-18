@@ -1,3 +1,4 @@
+<link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/bootstrap-imageupload.css'); ?>">
 <div class="container-fluid">
 	<?php echo form_open_multipart("idcf/save_idcf", array("id" => "form-idcf", "class" => "form-horizontal")) ?>
 		<center><h4 class="my-4">CERTIFIED CONSULTANT'S INFORMATION</h4></center>
