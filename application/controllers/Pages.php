@@ -12,15 +12,24 @@ class Pages extends CI_Controller{
 			show_404();
 		}
 		
-		$is_logged_in = _check_login();
+		$this->load->helper('url');
+		$page = $this->uri->segment(1);
+		if ($page != 'members'){
+			$page = 'customers';
+		}
+		$is_logged_in = _check_login($page);
 		if ($is_logged_in == false){
 			_clear_sessions();
-			redirect('login');
+			if($page == 'members'){
+				redirect('members/login');
+			} else {
+				redirect('login');
+			}
 		}
 
 		$data['title'] = ucfirst($page);
 		
-		if($this->session->page_type == "member") {
+		if($this->session->page_type == "members") {
 			$this->load->view('layouts/member_header');
 		} else {
 			$this->load->view('layouts/header');

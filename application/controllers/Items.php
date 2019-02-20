@@ -14,12 +14,11 @@ class Items extends CI_Controller{
 
 	public function item_list($class_id){
 		$this->_auth_login();
-
 		$this->load->model('item_class_model');
 
 		$data['title'] = $this->item_class_model->fetch_class($class_id);
 		$retained = "N";
-		if($this->session->page_type == "member") {
+		if($this->session->page_type == "members") {
 			$retained = "Y";
 		}
 		$user_id = $this->session->user_id;
@@ -67,7 +66,7 @@ class Items extends CI_Controller{
 		$usd_rate = $this->currency_rate_model->fetch_usdrate();
 		$data['usd_rate'] = round($usd_rate, 2);
 
-		if($this->session->page_type == "member") {
+		if($this->session->page_type == "members") {
 			$this->load->view('layouts/member_header');
 		} else {
 			$this->load->view('layouts/header');
@@ -82,7 +81,7 @@ class Items extends CI_Controller{
 
 		$data['title'] = "Booster Promo";
 		$retained = "N";
-		if($this->session->page_type == "member") {
+		if($this->session->page_type == "members") {
 			$retained = "Y";
 		}
 		$user_id = $this->session->user_id;
@@ -111,7 +110,7 @@ class Items extends CI_Controller{
 		$usd_rate = $this->currency_rate_model->fetch_usdrate();
 		$data['usd_rate'] = round($usd_rate, 2);
 
-		if($this->session->page_type == "member") {
+		if($this->session->page_type == "members") {
 			$this->load->view('layouts/member_header');
 		} else {
 			$this->load->view('layouts/header');
@@ -126,7 +125,7 @@ class Items extends CI_Controller{
 
 		$data['title'] = "Specials Promo";
 		$retained = "N";
-		if($this->session->page_type == "member") {
+		if($this->session->page_type == "members") {
 			$retained = "Y";
 		}
 		$user_id = $this->session->user_id;
@@ -155,7 +154,7 @@ class Items extends CI_Controller{
 		$usd_rate = $this->currency_rate_model->fetch_usdrate();
 		$data['usd_rate'] = round($usd_rate, 2);
 
-		if($this->session->page_type == "member") {
+		if($this->session->page_type == "members") {
 			$this->load->view('layouts/member_header');
 		} else {
 			$this->load->view('layouts/header');
@@ -170,7 +169,7 @@ class Items extends CI_Controller{
 
 		$data['title'] = "First Class Collection";
 		$retained = "N";
-		if($this->session->page_type == "member") {
+		if($this->session->page_type == "members") {
 			$retained = "Y";
 		}
 
@@ -213,7 +212,7 @@ class Items extends CI_Controller{
 		$usd_rate = $this->currency_rate_model->fetch_usdrate();
 		$data['usd_rate'] = round($usd_rate, 2);
 
-		if($this->session->page_type == "member") {
+		if($this->session->page_type == "members") {
 			$this->load->view('layouts/member_header');
 		} else {
 			$this->load->view('layouts/header');
@@ -228,7 +227,7 @@ class Items extends CI_Controller{
 
 		$data['title'] = "Fastbreak Promo";
 		$retained = "N";
-		if($this->session->page_type == "member") {
+		if($this->session->page_type == "members") {
 			$retained = "Y";
 		}
 		$user_id = $this->session->user_id;
@@ -257,7 +256,7 @@ class Items extends CI_Controller{
 		$usd_rate = $this->currency_rate_model->fetch_usdrate();
 		$data['usd_rate'] = round($usd_rate, 2);
 
-		if($this->session->page_type == "member") {
+		if($this->session->page_type == "members") {
 			$this->load->view('layouts/member_header');
 		} else {
 			$this->load->view('layouts/header');
@@ -272,7 +271,7 @@ class Items extends CI_Controller{
 
 		$data['title'] = "Other Promos";
 		$retained = "N";
-		if($this->session->page_type == "member") {
+		if($this->session->page_type == "members") {
 			$retained = "Y";
 		}
 		$user_id = $this->session->user_id;
@@ -301,7 +300,7 @@ class Items extends CI_Controller{
 		$usd_rate = $this->currency_rate_model->fetch_usdrate();
 		$data['usd_rate'] = round($usd_rate, 2);
 
-		if($this->session->page_type == "member") {
+		if($this->session->page_type == "members") {
 			$this->load->view('layouts/member_header');
 		} else {
 			$this->load->view('layouts/header');
@@ -312,13 +311,15 @@ class Items extends CI_Controller{
 
 	public function home()
 	{
-		$is_logged_in = _check_login();
+		$this->load->helper('url');
+		$page = $this->uri->segment(1);
+		if ($page != 'members'){
+			$page = 'customers';
+		}
+		$is_logged_in = _check_login($page);
 		if ($is_logged_in == false){
 			_clear_sessions();
-
 			$data['error'] = '';
-			$this->load->helper('url');
-			$page = $this->uri->segment(1);
 			if($page == 'members'){
 				return $this->load->view('members/login', $data);
 			} else {
@@ -335,14 +336,17 @@ class Items extends CI_Controller{
 		$this->shop_cart_model->update_expired_promos();
 		$this->shop_cart_model->remove_expired_promo($user_id, $tmp_user_id);
 
+		$distributor = $this->distributor_model->fetch_distributor_by_user_id($user_id);
 		$retained = "N";
-		if($this->session->page_type == "member") {
+		$this->session->set_userdata('brand_title', 'Customer');
+		if($this->session->page_type == "members") {
+			$this->session->set_userdata('brand_title', $distributor->first_name .' '. $distributor->last_name);
 			$retained = "Y";
 		}
-		$distributor = $this->distributor_model->fetch_distributor_by_user_id($user_id);
+		
 		$distributor_id = $distributor->distributor_id;
 		$rate = $this->distributor_model->fetch_distributor_rate($distributor_id);
-
+		
 		$promo_array = array();
 		$promos = $this->promo_item_model->fetch_promos_other();
 		foreach ($promos as $key){
@@ -382,12 +386,14 @@ class Items extends CI_Controller{
 		$usd_rate = $this->currency_rate_model->fetch_usdrate();
 		$data['usd_rate'] = round($usd_rate, 2);
 
-		if($this->session->page_type == "member") {
+		if($this->session->page_type == "members") {
 			$this->load->view('layouts/member_header');
+			$this->load->view('members/home', $data);
 		} else {
 			$this->load->view('layouts/header');
+			$this->load->view('items/home', $data);
 		}
-		$this->load->view('items/home', $data);
+		
 		$this->load->view('layouts/footer');
 	}
 
@@ -453,11 +459,14 @@ class Items extends CI_Controller{
 	}
 
 	private function _auth_login(){
-		$is_logged_in = _check_login();
+		$this->load->helper('url');
+		$page = $this->uri->segment(1);
+		if ($page != 'members'){
+			$page = 'customers';
+		}
+		$is_logged_in = _check_login($page);
 		if ($is_logged_in == false){
 			_clear_sessions();
-			$this->load->helper('url');
-			$page = $this->uri->segment(1);
 			if($page == 'members'){
 				redirect('members/login');
 			} else {

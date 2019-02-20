@@ -18,10 +18,12 @@ class Carts extends CI_Controller{
 		$data['total'] = $this->shop_cart_model->total_cart($user_id, $tmp_user_id);
 		$data['cart'] = $this->shop_cart_model->fetch_cart($user_id, $tmp_user_id);
 
-		if($this->session->page_type == "member") {
+		if($this->session->page_type == "members") {
 			$this->load->view('layouts/member_header');
+			$data['page_type'] = $this->session->page_type;
 		} else {
 			$this->load->view('layouts/header');
+			$data['page_type'] = '';
 		}
 		$this->load->view('carts/index', $data);
 		$this->load->view('layouts/footer');
@@ -30,23 +32,37 @@ class Carts extends CI_Controller{
 	public function checkout(){
 		$this->_auth_login();
 
-		if($this->session->page_type == "member") {
+		$user_id = $this->session->user_id;
+		$tmp_user_id = $this->session->tmp_user_id;
+
+		$this->load->model('country_model');
+		$data['countries'] = $this->country_model->fetch_countries();
+
+		$this->load->model('distributor_model');
+		$data['distributor'] = $this->distributor_model->fetch_distributor_by_user_id($user_id);
+
+		$data['total'] = $this->shop_cart_model->total_cart($user_id, $tmp_user_id);
+		$data['cart_count'] = $this->shop_cart_model->count_cart($user_id, $tmp_user_id);
+		$data['cart'] = $this->shop_cart_model->fetch_cart($user_id, $tmp_user_id);
+		if (count($data['cart']) == 0){
+			redirect();
+		}
+
+		if($this->session->page_type == "members") {
 			$this->load->view('layouts/member_header');
 		} else {
 			$this->load->view('layouts/header');
 		}
-		$this->load->view('carts/checkout');
+		$this->load->view('carts/checkout', $data);
 		$this->load->view('layouts/footer');
 	}
 
 	public function create(){
-		$this->_auth_login();
-
 		$user_id = $this->session->user_id;
 		$tmp_user_id = $this->session->tmp_user_id;
 
 		$retained = "N";
-		if($this->session->page_type == "member") {
+		if($this->session->page_type == "members") {
 			$retained = "Y";
 		}
 		
@@ -63,7 +79,7 @@ class Carts extends CI_Controller{
 		$buy = $this->input->post('Buy');
 		if(isset($buy)){
 			$oage_type = $this->session->page_type;
-			if ($oage_type == 'member'){
+			if ($oage_type == 'members'){
 				redirect('members/checkout');
 			} else {
 				redirect('checkout');
@@ -72,8 +88,6 @@ class Carts extends CI_Controller{
 	}
 
 	public function destroy(){
-		$this->_auth_login();
-
 		$user_id = $this->session->user_id;
 		$tmp_user_id = $this->session->tmp_user_id;
 
@@ -85,8 +99,6 @@ class Carts extends CI_Controller{
 	}
 
 	public function update(){
-		$this->_auth_login();
-
 		$user_id = $this->session->user_id;
 		$tmp_user_id = $this->session->tmp_user_id;
 
@@ -182,11 +194,14 @@ class Carts extends CI_Controller{
 	}
 
 	private function _auth_login(){
-		$is_logged_in = _check_login();
+		$this->load->helper('url');
+		$page = $this->uri->segment(1);
+		if ($page != 'members'){
+			$page = 'customers';
+		}
+		$is_logged_in = _check_login($page);
 		if ($is_logged_in == false){
 			_clear_sessions();
-			$this->load->helper('url');
-			$page = $this->uri->segment(1);
 			if($page == 'members'){
 				redirect('members/login');
 			} else {

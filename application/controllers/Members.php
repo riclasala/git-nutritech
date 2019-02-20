@@ -63,7 +63,7 @@ class Members extends CI_Controller{
 			$array = array('tmp_user_id' => session_id() . _generate_random_string(10) . $portal->user_id,
 				'ip_address' => $_SERVER['REMOTE_ADDR'],
 				'user_id' => $portal->user_id,
-				'page_type' => 'member'
+				'page_type' => 'members'
 			);
 			$this->session->set_userdata($array);
 			redirect('members');

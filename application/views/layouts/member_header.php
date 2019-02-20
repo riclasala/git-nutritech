@@ -36,8 +36,11 @@
 		</nav>
 		<nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #e3f2fd; margin-top: 33px;">
 			<div class="container">
-				<a class="navbar-brand" href="<?php echo base_url(); ?>">
-					<img src="<?php echo base_url(); ?>assets/images/logo.png" width="150" height="30" alt="NutriTECH">
+				<a class="navbar-brand" href="<?php echo base_url(); ?>members">
+					<div class="row">
+						<div class="col-2"><img src="<?php echo base_url(); ?>assets/images/logo.png" width="30" height="30"></div>
+						<div class="col-4"><small>Welcome <?php echo $_SESSION['brand_title']; ?></small></div>
+					</div>
 				</a>
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>

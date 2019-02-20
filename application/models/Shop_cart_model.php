@@ -60,8 +60,10 @@ class Shop_cart_model extends CI_Model
 	}
 
 	public function create_cart($user_id, $tmp_user_id, $retained, $item_id, $promo_id){
-		$rate = 20; //get the rate by using user_id (sample only)
+		$this->load->model('distributor_model');
+		$distributor = $this->distributor_model->fetch_distributor_by_user_id($user_id);
 
+		$rate = $this->distributor_model->fetch_distributor_rate($distributor->distributor_id);
 		if($promo_id > 0){
 			$this->load->model('promo_item_model');
 			$amount = $this->promo_item_model->getamount($promo_id, $retained, $rate);
@@ -96,10 +98,20 @@ class Shop_cart_model extends CI_Model
 
 	public function total_cart($user_id, $tmp_user_id){
 		$this->db->select('sum(amount * quantity) as amount');
-		$query = $this->db->get('shop_cart_tmp');
+		$query = $this->db->get_where('shop_cart_tmp', array('user_id' => $user_id, 
+			'tmp_user_id' => $tmp_user_id));
 		$result = $query->row();
 
 		return $result->amount;
+	}
+
+	public function count_cart($user_id, $tmp_user_id){
+		$this->db->select('sum(quantity) as cart_count');
+		$query = $this->db->get_where('shop_cart_tmp', array('user_id' => $user_id, 
+			'tmp_user_id' => $tmp_user_id));
+		$result = $query->row();
+
+		return $result->cart_count;
 	}
 
 	public function fetch_cart($user_id, $tmp_user_id){

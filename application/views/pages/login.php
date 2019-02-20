@@ -57,7 +57,7 @@
 		});
 
 		function checkUser(username){
-			page_type = 'customer';
+			page_type = 'customers';
 			$.ajax({
 				url: "<?php echo base_url(); ?>login/check_user",
 				type: 'POST',

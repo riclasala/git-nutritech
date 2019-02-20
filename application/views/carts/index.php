@@ -72,7 +72,7 @@
 				<br />
 				<div class="row text-center">
 					<div class="col-12">
-						<a href="<?php echo base_url(); ?>checkout" class="btn btn-success btn-sm">
+						<a href="<?php echo base_url() . $page_type; ?>/checkout" class="btn btn-success btn-sm">
 							<i class="fas fa-check"></i> Proceed to Checkout
 						</a>
 					</div>
@@ -84,7 +84,7 @@
 		<br />
 		<div class="row text-center">
 			<div class="col-12">
-				<a href="<?php echo base_url(); ?>" class="btn btn-warning btn-sm">
+				<a href="<?php echo base_url() . $page_type; ?>/" class="btn btn-warning btn-sm">
 					<i class="fas fa-shopping-cart"></i> Continue Shopping
 				</a>
 			</div>

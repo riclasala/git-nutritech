@@ -39,7 +39,7 @@ class Login extends CI_Controller{
 		$page_type = $this->input->post('page_type');
 
 		$append_greetings = "";
-		if ($page_type == "customer"){
+		if ($page_type == "customers"){
 			$append_greetings .= ' <b>Customer</b> of';
 		}
 
@@ -101,7 +101,7 @@ class Login extends CI_Controller{
 			$array = array('tmp_user_id' => session_id() . _generate_random_string(10) . $portal->user_id,
 				'ip_address' => $_SERVER['REMOTE_ADDR'],
 				'user_id' => $portal->user_id,
-				'page_type' => 'customer'
+				'page_type' => 'customers',
 			);
 			$this->session->set_userdata($array);
 			redirect();
@@ -122,7 +122,7 @@ class Login extends CI_Controller{
 			$array = array('tmp_user_id' => session_id() . _generate_random_string(10) . $portal->user_id,
 				'ip_address' => $_SERVER['REMOTE_ADDR'],
 				'user_id' => $portal->user_id,
-				'page_type' => 'customer'
+				'page_type' => 'customers'
 			);
 			$this->session->set_userdata($array);
 			redirect();

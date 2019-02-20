@@ -62,7 +62,7 @@
 		});
 
 		function checkUser(username){
-			page_type = 'member';
+			page_type = 'members';
 
 			$.ajax({
 				url: "<?php echo base_url(); ?>login/check_user",
