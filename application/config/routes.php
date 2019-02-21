@@ -16,7 +16,10 @@ $route['carts'] = 'carts/index';
 $route['checkout'] = 'carts/checkout';
 
 $route['membership'] = 'idcf/view';
-$route['idcf'] = 'idcf/idcf_membership';
+$route['idcf_confirmation'] = 'idcf/idcf_membership';
+
+$route['members/membership'] = 'idcf/view';
+$route['members/idcf_confirmation'] = 'idcf/idcf_membership';
 
 $route['booster'] = 'items/booster';
 $route['first_class'] = 'items/first_class';
