@@ -46,8 +46,17 @@
 			</ul>
 		</div>
 		<div class="col-md-8 order-md-1">
-			<h4 class="mb-3">Customer Details</h4>
-			<form class="needs-validation" novalidate="">
+			<?php $attr = array('class' => 'needs-validation', 'novalidate' => ''); ?>
+			<?php echo form_open('carts/submit_cart', $attr); ?>
+
+				<hr class="mb-4">
+				<div class="custom-control custom-checkbox">
+					<input type="checkbox" class="custom-control-input" id="customer-info" name="customer-info">
+					<label class="custom-control-label" for="customer-info">I'm the customer</label>
+				</div>
+				<hr class="mb-4">
+
+				<h4 class="mb-3">Customer Details</h4>
 				<div class="row">
 					<div class="col-md-4 mb-3">
 						<label for="first_name">First Name * </label>
@@ -150,8 +159,15 @@
 				<h4 class="mb-3"><i>Nutri</i>TECH Distributor</h4>
 				<div class="mb-3">
 					<label for="distributor">Distributor Name</label>
-					<input type="text" class="form-control" id="distributor" value=" <?= $distributor->first_name ?> <?= $distributor->last_name ?>" required="" readonly />
+					<input type="text" class="form-control" id="distributor" value="<?= $distributor->first_name ?> <?= $distributor->last_name ?>" required="" readonly />
 				</div>
+
+				<hr class="mb-4">
+				<div class="custom-control custom-checkbox">
+					<input type="checkbox" class="custom-control-input" id="save-info" name="save-info">
+					<label class="custom-control-label" for="save-info">Save this information for next time</label>
+				</div>
+				<hr class="mb-4">
 
 				<div class="custom-control custom-checkbox">
 					<input type="checkbox" class="custom-control-input" id="terms" name="terms" required="">
@@ -303,12 +319,138 @@
 	<script src="<?php echo base_url(); ?>assets/js/form-validation.js"></script>
 	<script type="text/javascript">
 		$('input[type="radio"][name="opt_address"]').change( function(){
-			if(this.value == '1') {
-				$('#delivery_address').attr('readonly', false);
-				$('#delivery_address').val('');
-			} else {
+			if(this.value == '0') {
 				$('#delivery_address').attr('readonly', true);
 				$('#delivery_address').val('Pick-up to NutriTECH Office');
+			} else {
+				$('#delivery_address').attr('readonly', false);
+				$('#delivery_address').val('');
 			}
 		});
+
+		$('#first_name').change( function(){
+			var last_name = $('#last_name').val();
+			if(last_name == ''){
+				return;
+			} else {
+				get_details();
+			}
+		});
+
+		$('#last_name').change( function(){
+			var first_name = $('#first_name').val();
+			if(first_name == ''){
+				return;
+			} else {
+				get_details();
+			}
+		});
+
+		$('#middle_name').change( function(){
+			var first_name = $('#first_name').val();
+			var last_name = $('#last_name').val();
+			if(first_name == '' || last_name == ''){
+				return;
+			} else {
+				get_details();
+			}
+		});
+
+		$('#customer-info').click( function(){
+			var check_info = $('#customer-info').is(":checked");
+
+			if(check_info == false){
+				$("#first_name").val('');
+				$("#last_name").val('');
+				$("#middle_name").val('');
+				$("#email").val('');
+				$("#permanent_address").val('');
+				$('#pick_up_address').prop('checked', true);
+				$('#own_address').prop('checked', false);
+				$('#delivery_address').attr('readonly', true);
+				$('#delivery_address').val('Pick-up to NutriTECH Office');
+				$("#mobile").val('');
+				$("#telephone").val('');
+				$("#country").val('PH');
+				$("#zip").val('');
+			} else {
+				distributor_customer();
+			}
+		});
+
+		function distributor_customer(){
+			$.ajax({
+				url: "<?php echo base_url(); ?>carts/distributor_customer",
+				type: "POST",
+				dataType: "json",
+				success: function(data, status){
+					$("#first_name").val(data.first_name);
+					$("#last_name").val(data.last_name);
+					$("#middle_name").val(data.middle_name);
+					$("#email").val(data.email);
+					$("#permanent_address").val(data.permanent_address);
+
+					if(data.delivery_address == 'Pick-up to NutriTECH Office'){
+						$('#pick_up_address').prop('checked', true);
+						$('#own_address').prop('checked', false);
+						$('#delivery_address').attr('readonly', true);
+
+					} else {
+						$('#pick_up_address').prop('checked', false);
+						$('#own_address').prop('checked', true);
+						$('#delivery_address').attr('readonly', false);
+					}
+
+					$("#delivery_address").val(data.delivery_address);
+					$("#mobile").val(data.mobile);
+					$("#telephone").val(data.telephone);
+					$("#zip").val(data.zip);
+				}
+			});
+		}
+
+		function get_details(){
+			var last_name = $("#last_name").val();
+			var first_name = $("#first_name").val();
+			var middle_name = $("#middle_name").val();
+
+			var tmp_name = $('#distributor').val();
+			var name = first_name + ' ' + last_name;
+			$('#customer-info').prop('checked', false);
+			if(tmp_name == name){
+				$('#customer-info').prop('checked', true);
+				distributor_customer();
+			} else {
+				$.ajax({
+					url: "<?php echo base_url(); ?>carts/check_customer",
+					type: "POST",
+					dataType: "json",
+					data: {
+						first_name: first_name,
+						last_name: last_name,
+						middle_name: middle_name
+					},
+					success: function(data, status){
+						$("#email").val(data.email);
+						$("#permanent_address").val(data.permanent_address);
+
+						if(data.delivery_address == 'Pick-up to NutriTECH Office'){
+							$('#pick_up_address').prop('checked', true);
+							$('#own_address').prop('checked', false);
+							$('#delivery_address').attr('readonly', true);
+
+						} else {
+							$('#pick_up_address').prop('checked', false);
+							$('#own_address').prop('checked', true);
+							$('#delivery_address').attr('readonly', false);
+						}
+
+						$("#delivery_address").val(data.delivery_address);
+						$("#mobile").val(data.mobile);
+						$("#telephone").val(data.telephone);
+						$("#zip").val(data.zip);
+					}
+				});
+			}
+		}
 	</script>

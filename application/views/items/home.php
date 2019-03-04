@@ -54,7 +54,7 @@
 								<p class="card-text">
 									₱<?php echo number_format($row['tsp'], 2); ?> - $<?php echo number_format($row['tsp'] / $usd_rate, 2); ?>
 									<div class="row">
-										<div class="col-lg-12 col-md-5 col-sm-5 col-xs-5">
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 											<small>
 												<?php if(count($row['breakdown_array']) > 0) { ?>
 													<b>BONUS</b>:<br />
@@ -71,7 +71,7 @@
 											</small>
 										</div>
 
-										<div class="col-lg-12 col-md-3 col-sm-3 col-xs-3 text-center">
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
 											<?php echo form_open('carts/create'); ?>
 												<input type="hidden" name="item_id" id="item_id_0_x_<?php echo $row['promo_id']; ?>" value="0" />
 												<input type="hidden" name="promo_id" id="promo_id_0_x_<?php echo $row['promo_id']; ?>" value="<?php echo $row['promo_id']; ?>" />

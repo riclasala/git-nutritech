@@ -19,13 +19,13 @@
 						<ul>
 							<span>Address</span>
 							<li>
-								<small>Main Office: Suite 1901 Centerpoint Bldg. Garnet Rd. cor. Julia Vargas Ave. Ortigas, Pasig City</small>
+								<small>Head Office: Suite 1901 Centerpoint Bldg. Garnet Rd. cor. Julia Vargas Ave. Ortigas, Pasig City</small>
 							</li>
 							<li>
 								<small>Antipolo Showroom: #66 M.L Quezon Ext. Brgy. Dalig, Antipolo City</small>
 							</li> 
 							<li>
-								<small>Cebu Showroom: #17 Trilliom Residences, 3rd Floor Molave St. cor. Escario St., Brgy. Kamputhaw, Cebu City</small>
+								<small>Cebu Showroom: #17 Trillium Residences, 3rd Floor Molave St. cor. Escario St., Brgy. Kamputhaw, Cebu City</small>
 							</li>
 							<li>
 								<small>Davao Showroom: Unit C09 Palmetto Place, Ground Floor Ma-a Rd. cor Eden St., Don Julian Rodriguez Sr. Ave., Talomo, Davao City</small>

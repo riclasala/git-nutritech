@@ -1,5 +1,4 @@
 <?php
-
 class Promo_item_breakdown_model extends CI_Model
 {
 	public function fetch_bonus($promo_id, $recipient){

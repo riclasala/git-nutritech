@@ -45,7 +45,11 @@ class Carts extends CI_Controller{
 		$data['cart_count'] = $this->shop_cart_model->count_cart($user_id, $tmp_user_id);
 		$data['cart'] = $this->shop_cart_model->fetch_cart($user_id, $tmp_user_id);
 		if (count($data['cart']) == 0){
-			redirect();
+			if($this->session->page_type == "members") {
+				redirect('members');
+			} else {
+				redirect();
+			}
 		}
 
 		if($this->session->page_type == "members") {
@@ -86,6 +90,172 @@ class Carts extends CI_Controller{
 			}
 		}
 	}
+
+	public function submit_cart(){
+		$server_ip = _ip_url();
+		
+		$first_name = strtoupper($this->input->post('first_name'));
+		$last_name = strtoupper($this->input->post('last_name'));
+		$middle_name = strtoupper($this->input->post('middle_name'));
+		$email = $this->input->post('email');
+		$permanent_address = $this->input->post('permanent_address');
+		$delivery_address = $this->input->post('delivery_address');
+		$mobile = $this->input->post('mobile');
+		$telephone = $this->input->post('telephone');
+		$country = $this->input->post('country');
+		$zip = $this->input->post('zip');
+		$save_info = $this->input->post('save-info');
+
+		$customer_post = array(
+			'firstname' => $first_name,
+			'lastname' => $last_name,
+			'middlename' => $middle_name,
+			'email_user' => $email,
+			'address' => $permanent_address,
+			'delivery_address' => $delivery_address,
+			'mobile_number' => $mobile,
+			'tel_no' => $telephone,
+			'country' => $country,
+			'zipcode' => $zip
+		);
+
+		//Check if Exists. From current DB
+		$user_id = $this->session->user_id;
+		$this->load->model('distributor_model');
+		$distributor = $this->distributor_model->fetch_distributor_by_user_id($user_id);
+		$customer_array = array(
+			'firstname' => trim($first_name),
+			'lastname' => trim($last_name)
+		);
+		$this->load->model('customer_model');
+		$customer = $this->customer_model->customer_exists($customer_array, $distributor->distributor_id);
+		if(isset($customer)){
+			if($save_info == true){
+				$this->customer_model->update_details($customer_post, $customer->customer_id);
+			}
+		} else {
+			$customer_name = $last_name . ', ' . $first_name . ' ' . $middle_name;
+			$customer_name = trim($customer_name);
+			$customer_name = str_replace(' ','<>', $customer_name); //find spaces
+			$customer_name = str_replace('><', '', $customer_name); //remove double spaces
+			$customer_name = str_replace('<>', ' ', $customer_name); //return clean spaces
+
+			$customer = $this->customer_model->customer_from_api($customer_name, $distributor->distributor_id);
+			if(isset($customer)){
+				$this->customer_model->update_details($customer_post, $customer->customer_id);
+			} else {
+				$customer_post['customer_name'] = $customer_name;
+				$customer_post['customer_status'] = 1;
+				$customer_post['distributor_tag'] = 'n';
+				$customer_post['online_tag'] = 'y';
+				$customer_id = $this->customer_model->save_api_db($server_ip, $customer_post);
+
+				$customer_post['customer_id'] = $customer_id;
+				$customer_post['distributor_id'] = $distributor->distributor_id;
+				$this->customer_model->save($customer_post);
+			}
+		}
+	}
+
+	public function distributor_customer(){
+		$user_id = $this->session->user_id;
+		$this->load->model('distributor_model');
+		$distributor = $this->distributor_model->fetch_distributor_by_user_id($user_id);
+
+		$customer_array = array(
+			'firstname' => $distributor->first_name,
+			'lastname' => $distributor->last_name,
+		);
+
+		$this->load->model('customer_model');
+		$customer = $this->customer_model->customer_exists($customer_array, $distributor->distributor_id);
+		if(isset($customer)) {
+			$details = array(
+				'first_name' => $customer->firstname,
+				'last_name' => $customer->lastname,
+				'middle_name' => $customer->middlename,
+				'email' => $customer->email_user,
+				'permanent_address' => $customer->address,
+				'delivery_address' => $customer->delivery_address,
+				'mobile' => $customer->mobile_number,
+				'telephone' => $customer->tel_no,
+				'country' => $customer->country,
+				'zip' => $customer->zipcode
+			);
+		} else {
+			$details = array(
+				'first_name' => $distributor->first_name,
+				'last_name' => $distributor->last_name,
+				'middle_name' => $distributor->middle_name,
+				'email' => $distributor->email,
+				'permanent_address' => $distributor->distributor_address,
+				'delivery_address' => 'Pick-up to NutriTECH Office',
+				'mobile' => $distributor->mobile_number,
+				'telephone' => $distributor->residence_telephone,
+				'country' => 'PH',
+				'zip' => ''
+			);
+
+			$this->customer_model->save_distributor($distributor);
+		}
+		echo json_encode($details);
+	}
+
+	public function check_customer(){
+		$server_ip = _ip_url();
+		$first_name = $this->input->post('first_name');
+		$last_name = $this->input->post('last_name');
+		$middle_name = $this->input->post('middle_name');
+
+		$user_id = $this->session->user_id;
+		$this->load->model('distributor_model');
+		$distributor = $this->distributor_model->fetch_distributor_by_user_id($user_id);
+
+		$customer_array = array(
+			'firstname' => trim($first_name),
+			'lastname' => trim($last_name)
+		);
+
+		$this->load->model('customer_model');
+		$customer = $this->customer_model->customer_exists($customer_array, $distributor->distributor_id);
+		if(isset($customer)) {
+			$this->_display_customer($customer);
+		} else {
+			$customer_name = $last_name . ', ' . $first_name . ' ' . $middle_name;
+			$customer_name = trim($customer_name);
+			$customer_name = str_replace(' ','<>', $customer_name); //find spaces
+			$customer_name = str_replace('><', '', $customer_name); //remove double spaces
+			$customer_name = str_replace('<>', ' ', $customer_name); //return clean spaces
+
+			$customer = $this->customer_model->customer_from_api($customer_name, $distributor->distributor_id);
+			if(isset($customer)){
+				$this->_display_customer($customer);
+			} else {
+				$clear_name = str_replace('.', '', $customer_name); //remove periods
+				$this->customer_model->load_customer($server_ip, $clear_name, $distributor->distributor_id);
+
+				$customer = $this->customer_model->customer_from_api($customer_name, $distributor->distributor_id);
+				if(isset($customer)) {
+					$this->_display_customer($customer);
+				}
+			}
+		}
+	}
+
+	private function _display_customer($customer){
+		echo json_encode(array(
+			'first_name' => $customer->firstname,
+			'last_name' => $customer->lastname,
+			'middle_name' => $customer->middlename,
+			'email' => $customer->email_user,
+			'permanent_address' => $customer->address,
+			'delivery_address' => $customer->delivery_address,
+			'mobile' => $customer->mobile_number,
+			'telephone' => $customer->tel_no,
+			'country' => $customer->country,
+			'zip' => $customer->zipcode
+		));
+	} 
 
 	public function destroy(){
 		$user_id = $this->session->user_id;

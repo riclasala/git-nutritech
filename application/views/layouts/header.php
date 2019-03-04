@@ -37,7 +37,7 @@
 				<a class="navbar-brand" href="<?php echo base_url(); ?>">
 					<div class="row">
 						<div class="col-2"><img src="<?php echo base_url(); ?>assets/images/logo.png" width="30" height="30"></div>
-						<div class="col-4"><small>Welcome <?php echo $_SESSION['brand_title']; ?></small></div>
+						<div class="col-4"><small>Welcome <?php echo (isset($_SESSION['brand_title']) ? $_SESSION['brand_title'] : ''); ?></small></div>
 					</div>
 				</a>
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">

@@ -1,6 +1,6 @@
 
 			<!-- Page Heading -->
-			<h1 class="my-4"><?= $title ?></h1>
+			<h1 class="my-4"><?= strtoupper($title); ?></h1>
 			<div class="row">
 				<?php foreach($items as $row) { ?>
 					<div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
@@ -14,13 +14,13 @@
 										<?php foreach($row['promo_array'] as $promo) { ?>
 											<hr />
 											<div class="row">
-												<div class="col-lg-12 col-md-4 col-sm-4 col-xs-4">
+												<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 													<small>
 														<b>PROMO</b>:<br /><?php echo $promo['promo_description']; ?><br />
 														<b>₱<?php echo number_format($promo['tsp'], 2); ?> - $<?php echo number_format($promo['tsp'] / $usd_rate, 2); ?></b>
 													</small>
 												</div>
-												<div class="col-lg-12 col-md-5 col-sm-5 col-xs-5">
+												<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 													<small>
 														<?php if(count($promo['breakdown_array']) > 0) { ?>
 															<b>BONUS</b>:<br />
@@ -37,7 +37,7 @@
 													</small>
 												</div>
 
-												<div class="col-lg-12 col-md-3 col-sm-3 col-xs-3 text-center">
+												<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
 													<?php echo form_open('carts/create'); ?>
 														<input type="hidden" name="item_id" id="item_id_0_x_<?php echo $promo['promo_id']; ?>" value="0" />
 														<input type="hidden" name="promo_id" id="promo_id_0_x_<?php echo $promo['promo_id']; ?>" value="<?php echo $promo['promo_id']; ?>" />
@@ -54,7 +54,7 @@
 									<?php } else { ?>
 										<?php echo form_open('carts/create'); ?>
 											<div class="row">
-												<div class="col-lg-12 col-md-3 col-sm-3 col-xs-3 text-center">
+												<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
 													<input type="hidden" name="item_id" id="item_id_<?php echo $row['item_id']; ?>_x_0" value="<?php echo $row['item_id']; ?>" />
 													<input type="hidden" name="promo_id" id="promo_id_<?php echo $row['item_id']; ?>_x_0" value="0" />
 													<button type="submit" class="btn btn-success btn-sm" name="Buy">

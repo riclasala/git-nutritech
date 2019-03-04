@@ -27,7 +27,7 @@ class Shop_cart_model extends CI_Model
 		))->get();
 		$results = $query->result_array();
 		foreach ($results as $key) {
-			$this->where(array('id' => $key['id']));
+			$this->db->where(array('id' => $key['id']));
 			$this->db->update('shop_cart_tmp', array('promo_expire' => 'Y'));
 		}
 	}

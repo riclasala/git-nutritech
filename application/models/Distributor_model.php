@@ -58,6 +58,7 @@ class Distributor_model extends CI_Model
 				'tin' => $row['tin'],
 				'subteam_id' => $row['subteam_id'],
 				'sponsor_id' => $row['sponsor_id'],
+				'customer_id' => $row['customer_id'],
 				'mobile_number2' => $row['mobile_number2']
 			);
 			$this->save($dist_arr);
@@ -113,6 +114,7 @@ class Distributor_model extends CI_Model
 				'tin' => $row['tin'],
 				'subteam_id' => $row['subteam_id'],
 				'sponsor_id' => $row['sponsor_id'],
+				'customer_id' => $row['customer_id'],
 				'mobile_number2' => $row['mobile_number2']
 			);
 			$this->save($dist_arr);
@@ -125,31 +127,32 @@ class Distributor_model extends CI_Model
 
 	public function save($details)
 	{
-		$this->db->set($this->_setItem($details))->insert('distributors');
+		$this->db->set($details)->insert('distributors');
 	}
 	
 	private function _setItem($details)
 	{
 		return array(
 			'distributor_id' => $details['distributor_id'],
-				'distributor_code' => $details['distributor_code'],
-				'last_name' => $details['last_name'],
-				'first_name' =>  $details['first_name'],
-				'middle_name' =>  $details['middle_name'],
-				'nickname' =>  $details['nickname'],
-				'date_joined' =>  $details['date_joined'],
-				'distributor_address' =>  $details['distributor_address'],
-				'location_id' => $details['location_id'],
-				'email' => $details['email'],
-				'distributor_level_id' => $details['distributor_level_id'],
-				'birthdate' => $details['birthdate'],
-				'residence_telephone' => $details['residence_telephone'],
-				'office_telephone' => $details['office_telephone'],
-				'mobile_number' => $details['mobile_number'],
-				'tin' => $details['tin'],
-				'subteam_id' => $details['subteam_id'],
-				'sponsor_id' => $details['sponsor_id'],
-				'mobile_number2' => $details['mobile_number2']
+			'distributor_code' => $details['distributor_code'],
+			'last_name' => $details['last_name'],
+			'first_name' =>  $details['first_name'],
+			'middle_name' =>  $details['middle_name'],
+			'nickname' =>  $details['nickname'],
+			'date_joined' =>  $details['date_joined'],
+			'distributor_address' =>  $details['distributor_address'],
+			'location_id' => $details['location_id'],
+			'email' => $details['email'],
+			'distributor_level_id' => $details['distributor_level_id'],
+			'birthdate' => $details['birthdate'],
+			'residence_telephone' => $details['residence_telephone'],
+			'office_telephone' => $details['office_telephone'],
+			'mobile_number' => $details['mobile_number'],
+			'tin' => $details['tin'],
+			'subteam_id' => $details['subteam_id'],
+			'sponsor_id' => $details['sponsor_id'],
+			'customer_id' => $details['customer_id'],
+			'mobile_number2' => $details['mobile_number2']
 		);
 	}
 }
