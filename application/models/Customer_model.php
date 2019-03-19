@@ -11,6 +11,11 @@ class Customer_model extends CI_Model
 		return $query->row();
 	}
 
+	public function fetch_customer($customer_id){
+		$query = $this->db->get_where('customers', array('customer_id' => $customer_id));
+		return $query->row();
+	}
+
 	public function customer_from_api($customer_name, $distributor_id){
 		$query = $this->db->get_where('customers', array(
 			'customer_name' => $customer_name,

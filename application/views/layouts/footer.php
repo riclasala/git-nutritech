@@ -21,18 +21,18 @@
 							<li>
 								<small>Head Office: Suite 1901 Centerpoint Bldg. Garnet Rd. cor. Julia Vargas Ave. Ortigas, Pasig City</small>
 							</li>
-							<li>
+							<!--- li>
 								<small>Antipolo Showroom: #66 M.L Quezon Ext. Brgy. Dalig, Antipolo City</small>
-							</li> 
+							</li -->
 							<li>
 								<small>Cebu Showroom: #17 Trillium Residences, 3rd Floor Molave St. cor. Escario St., Brgy. Kamputhaw, Cebu City</small>
 							</li>
 							<li>
 								<small>Davao Showroom: Unit C09 Palmetto Place, Ground Floor Ma-a Rd. cor Eden St., Don Julian Rodriguez Sr. Ave., Talomo, Davao City</small>
 							</li>  
-							<li>
+							<!--- li>
 								<small>Mindoro Showroom: NutriTECH Bldg. 2nd Floor Brgy. Lumambayan, Calapan City, Oriental Mindoro</small>
-							</li> 
+							</li -->
 						</ul>
 					</div>
 
@@ -46,7 +46,7 @@
 								<small><i class="fas fa-fax"></i> Fax: (632) 631-7517</small>
 							</li>
 							<li>
-								<small><i class="fas fa-envelope"></i> Email: customercare@wnutritech.com</small>
+								<small><i class="fas fa-envelope"></i> Email: <a href="mailto:customercare@wnutritech.com">customercare@wnutritech.com</a></small>
 							</li>
 						</ul>
 					</div>

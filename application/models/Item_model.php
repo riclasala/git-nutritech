@@ -54,7 +54,8 @@ class Item_model extends CI_Model
 				'pse' =>  $row['pse'],
 				'item_photo' =>  $row['item_photo'],
 				'sequence' =>  $row['sequence'],
-				'main_item' => $row['main_item']
+				'main_item' => $row['main_item'],
+				'item_code' => $row['item_code']
 			);
 			$this->save($item_arr);
 		}
@@ -92,7 +93,8 @@ class Item_model extends CI_Model
 			'pse' =>  $details['pse'],
 			'item_photo' =>  $details['item_photo'],
 			'sequence' =>  $details['sequence'],
-			'main_item' => $details['main_item']
+			'main_item' => $details['main_item'],
+			'item_code' => $details['item_code']
 		);
 	}
 }

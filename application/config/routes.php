@@ -14,6 +14,7 @@ $route['members/logout'] = 'members/logout';
 
 $route['carts'] = 'carts/index';
 $route['checkout'] = 'carts/checkout';
+$route['callback'] = 'carts/callback';
 
 $route['membership'] = 'idcf/view';
 $route['idcf_confirmation'] = 'idcf/idcf_membership';
